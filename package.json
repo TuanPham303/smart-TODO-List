@@ -15,6 +15,7 @@
     "@google/maps": "^0.4.3",
     "amazon-product-api": "^0.4.4",
     "body-parser": "^1.15.2",
+    "bootstrap": "^4.0.0-beta",
     "dotenv": "^2.0.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",

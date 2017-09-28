@@ -1,17 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
+    <title>Smart Todo</title>
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <!-- required for bootstrap responsive view -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- layout style sheet -->
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <!-- stylesheet for item list container -->
+    <link rel="stylesheet" href="/styles/categories.css" type="text/css" />
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/navbar-toggle.js"></script>
   </head>
 
   <body>
-    <h1>Hello World!</h1>
+    <!-- page header -->
+    <header class="container">
+      <h1>Smart TODO List</h1>
+      <button class="btn navbar-toggle" type="button">
+        Nav
+      </button>
+      <div class="collapse" id="navbar">
+        <% include ./partials/_navbar %>
+      </div>
+    </header>
+
+
+    <!-- add item input -->
+    <div class="container add-item">
+      <form class="input-group">
+        <input class="form-control todo-item" placeholder="Add a ToDo!">
+        <button class="btn" type="submit">Add</button>
+      </form>
+    </div>
+
+    <!-- main container with categories and lists -->
+    <div class="container">
+      <div class="card-deck categories">
+
+        <!-- to read list column -->
+        <div class="card read-list">
+          <h5 class="card-header">To Read</h5>
+          <div class="card-block">
+            <ul class="list-group list-group-flush read-items">
+              <li class="list-group-item">
+                <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Thing to Read
+                </label>
+              </li>
+              <li class="list-group-item">
+                <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Harry Potter
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- to watch list column -->
+        <div class="card watch-list">
+          <h5 class="card-header">To Watch</h5>
+          <div class="card-block">
+            <ul class="list-group list-group-flush watch-items">
+              <li class="list-group-item">
+                <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Thing to Watch
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+        <!-- to buy list column -->
+        <div class="card buy-list">
+          <h5 class="card-header">To Buy</h5>
+          <div class="card-block">
+            <ul class="list-group list-group-flush buy-items">
+              <li class="list-group-item">
+                <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Thing to Buy
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- to eat list column -->
+        <div class="card eat-list">
+          <h5 class="card-header">To Eat</h5>
+          <div class="card-block">
+            <ul class="list-group list-group-flush eat-items">
+              <li class="list-group-item">
+                <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Thing to Eat
+                </label>
+              </li>
+            </ul>
+          </div>
+    </div>
   </body>
 </html>
