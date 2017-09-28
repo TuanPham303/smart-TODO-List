@@ -1,75 +1,119 @@
 require('dotenv').config();
 const amazon = require('amazon-product-api');
-const request = require('request');
+const stringSimilarity = require('string-similarity');
 
-const client = amazon.createClient({
+const googleMapsClient = require('@google/maps').createClient({
+  key: process.env.google_key,
+  Promise: Promise
+});
+
+const amazonClient = amazon.createClient({
   awsId: process.env.amazon_key_public,
   awsSecret: process.env.amazon_key_secret,
   awsTag: process.env.amazon_tag
 });
 
-function searchGmaps(searchTerm) {
-  request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=49.282039,-123.108090&radius=50000&type=food&keyword=${ process.argv[2] }&key=${ process.env.google_key }`, (error, response, body) => {
-  return JSON.parse(body).results.length;
-  });
 
-}
+function chooseCategories(searchTerm) {
 
-function searchAmazon(searchTerm, callback) {
-  const res = client.itemSearch({ keywords: searchTerm }, function(err, results, response) {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, searchTerm, response);
+  const searchMaps = googleMapsClient.places({
+    query: searchTerm,
+    radius: 50000,
+    location: [49.282039, -123.108090],
+    type: 'restaurant'
+  })
+    .asPromise()
+    .then((response) => {
+      return response.json.results;
+    })
+    .catch((err) => {
+      console.log('Google Places API error: ', err);
+    });
+
+  const searchAmazon = amazonClient.itemSearch({ keywords: searchTerm })
+    .then((results) => {
+      return results;
+    })
+    .catch((err) => {
+      console.log('Amazon API error: ', err[0].Error);
+    });
+
+  function processGoogleResults(googleResults) {
+    let isRestaurant = 0;
+    googleResults.forEach((result) => {
+      const similarity = stringSimilarity.compareTwoStrings(searchTerm, result.name);
+      if (similarity > 0.7) {
+        isRestaurant = 1;
+        if (similarity > 0.9) {
+          isRestaurant = 2;
+        }
+      }
+    });
+    return isRestaurant;
+  }
+
+  function processAmazonResults(amazonResults) {
+    const returnArray = [];
+    let countMovie = 0;
+    let countBook = 0;
+    let countOther = 0;
+    amazonResults[0].Item.forEach((searchResult) => {
+      const item = searchResult.ItemAttributes[0].ProductGroup[0];
+      console.log(item);
+      if (item === 'Movie' || item === 'DVD' || item === 'Video') {
+        countMovie += 1;
+      } else if (item === 'Book' || item === 'eBooks') {
+        countBook += 1;
+      } else {
+        countOther += 1;
+      }
+    });
+    //adjust values to fine tune accuracy/simplicity of results
+    if (countMovie > 0) {
+      returnArray.push('watch');
     }
-  });
-}
-
-//takes amazon results and returns an array of categorys
-function processAmazonResults(err, amazonResults) {
-  const returnArray = [];
-  let countMovie = 0;
-  let countBook = 0;
-  let countOther = 0;
-  amazonResults[0].Item.forEach((searchResult) => {
-    const item = searchResult.ItemAttributes[0].ProductGroup[0];
-    console.log(item);
-    if (item === 'Movie' || item === 'DVD' || item === 'Video') {
-      countMovie += 1;
-    } else if (item === 'Book' || item === 'eBooks') {
-      countBook += 1;
-    } else {
-      countOther += 1;
+    if (countBook > 1 ) {
+      returnArray.push('read');
     }
+    if (countOther > 2) {
+      returnArray.push('buy');
+    }
+    return returnArray;
+  }
+
+  // searchMaps.then((results) => {
+  //   return processGoogleResults(results);
+  // });
+
+  // searchAmazon.then((results) => {
+  //   return processAmazonResults(results);
+  // });
+
+
+  // Promise.all([searchMaps]).then(values => {
+  //   console.log(values);
+  // });
+
+  const isResturant = searchMaps.then((results) => {
+    return processGoogleResults(results, searchTerm);
   });
-  //adjust values to fine tune accuracy/simplicity of results
-  if (countMovie > 0) {
-    returnArray.push('watch');
+  const amazonCategories = searchAmazon.then((results) => {
+    return processAmazonResults(results);
+  });
+
+  if (isResturant === 2) {
+    return ['eat'];
   }
-  if (countBook > 1 ) {
-    returnArray.push('read');
+  if (isResturant === 1) {
+    amazonCategories.push('eat');
   }
-  if (countOther > 2) {
-    returnArray.push('buy');
-  }
-  return returnArray;
+  return amazonCategories;
+
 }
 
-function compareAmazonGmaps(err, searchTerm, amazonResults) {
-  const categories = processAmazonResults(null, amazonResults);
-  const gmapsTotal = searchGmaps(searchTerm);
-  const amazonTotal = amazonResults[0].TotalResults[0];
-  console.log('amazonTotal: ' + amazonTotal);
-  console.log('gmapsTotal: ' + gmapsTotal);
-  console.log('amazon/gmaps: ' + amazonTotal/gmapsTotal);
-}
-
-// searchAmazon(process.argv[2], compareAmazonGmaps);
-
-console.log(searchGmaps('spoon'));
 
 
-
+chooseCategories(process.argv[2]);
 
 
 
