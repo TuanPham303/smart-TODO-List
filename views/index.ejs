@@ -36,8 +36,8 @@
 
     <!-- add item input -->
     <div class="container add-item">
-      <form class="input-group">
-        <input class="form-control todo-item" placeholder="Add a ToDo!">
+      <form action="api/items/add" method="post" class="input-group">
+        <input class="form-control todo-item" placeholder="Add a ToDo!" name="item">
         <button class="btn" type="submit">Add</button>
       </form>
     </div>
@@ -52,8 +52,8 @@
           <div class="card-block">
             <ul class="list-group list-group-flush read-items">
               <li class="list-group-item">
-                <label class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input">
+                <label class="custom-control custom-checkbox readItem">
+                  <input type="checkbox" class="custom-control-input">
                   <span class="custom-control-indicator"></span>
                   Thing to Read
                 </label>

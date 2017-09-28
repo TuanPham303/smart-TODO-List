@@ -5,11 +5,10 @@ const router  = express.Router();
 
 module.exports = (knex) => {
 
-  router.get("/", (req, res) => {
-    console.log('asda');
+  router.get("/items", (req, res) => {
     knex
       .select("*")
-      .from("users")
+      .from("items")
       .then((results) => {
         res.json(results);
     });
@@ -18,8 +17,7 @@ module.exports = (knex) => {
 // ADD ITEMS
   router.post("/items/add", (req, res) => {
     const item = req.body.item;
-    knex('items')
-    .insert({name: item})
+    knex.insert({content: item, user_id: '1', category: 'read', status: true}).into('items')
     .then(res.redirect('/'));
   });
 
