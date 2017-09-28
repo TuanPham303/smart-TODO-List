@@ -4,7 +4,14 @@ $(() => {
     url: "/api/users"
   }).done((users) => {
     for(user of users) {
-      $("<div>").text(user.name).appendTo($("body"));
+      $("<div>").text(user.email).appendTo($("body"));
     }
   });;
 });
+
+// $(() => {
+//   $.ajax({
+//     method: "POST",
+//     url: ""
+//   }).done()
+// }
