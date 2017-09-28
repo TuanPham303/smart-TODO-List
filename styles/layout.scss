@@ -4,11 +4,11 @@ body {
   font-family: 'Playfair Display', serif;
 }
 
+header {
+  color: $teal;
+}
+
 .container {
   padding-top: 15px;
   padding-bottom: 15px;
-}
-
-header {
-  color: $teal;
 }
