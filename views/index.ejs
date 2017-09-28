@@ -3,30 +3,38 @@
   <head>
     <title>Smart Todo</title>
 
+    <!-- required for bootstrap responsive view -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- layout style sheet -->
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <!-- stylesheet for item list container -->
+    <link rel="stylesheet" href="/styles/categories.css" type="text/css" />
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
 
   <body>
+    <!-- page header -->
+    <header>
+      <h1>Smart TODO List</h1>
+    </header>
 
-    <div class="navbar">
-      <div class="navbar-text">
-        <h1>Smart TODO List</h1>
-      </div>
-    </div>
-
-    <div class="container">
+    <!-- add item input -->
+    <div class="container add-item">
       <form class="input-group">
         <input class="form-control todo-item" placeholder="Add a ToDo!">
         <button class="btn" type="submit">Add</button>
       </form>
     </div>
 
+    <!-- main container with categories and lists -->
     <div class="container">
       <div class="row align-items-center categories">
         <div class="col read-list">

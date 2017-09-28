@@ -1,5 +1,14 @@
 @import '../node_modules/bootstrap/scss/bootstrap';
 
-.navbar {
+body {
+  font-family: 'Playfair Display', serif;
+}
+
+.container {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+header {
   color: $teal;
 }
