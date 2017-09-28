@@ -1,14 +1,18 @@
+<nav class="navbar nav-light bg-light">
 
-<div class="navbar container">
-  <div class="button-group">
-    <div class="btn-link">Login</div>
+  <!-- if user is NOT logged in, show LOGIN and REGISTER -->
+  <form class="form-inline">
+    <a class="nav-link register" href="#">Register</a>
+    <a class="nav-link login" href="#">Login</a>
+  </form>
 
-    <div class="btn-link">Register</div>
-  </div>
-</div>
+  <!-- if user IS logged in, show HI USER, UPDATE PROFILE, LOGOUT -->
+  <form class="form-inline">
+    <span class="login-hello">Hello User!</span>
+    <a class="nav-link update-profile" href="#">Profile</a>
+    <a class="nav-link logout" href="#">Logout</a>
+  </form>
+
+</nav>
 
 
-<!-- if user is NOT logged in, show LOGIN and REGISTER -->
-
-
-<!-- if user IS logged in, show HI USER, UPDATE PROFILE, LOGOUT -->
