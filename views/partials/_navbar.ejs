@@ -1,0 +1,25 @@
+<nav class="navbar nav-light bg-light">
+
+  <!-- if user IS logged in, show HI USER, UPDATE PROFILE, LOGOUT -->
+  <!-- else user is NOT logged in, show LOGIN and REGISTER -->
+
+  <!-- let user = true or false (hardcoded for testing) -->
+  <% let user = false; %>
+  <% if (user) { %>
+    <form class="form-inline">
+      <span class="login-hello">Hello User!</span>
+      <a class="nav-link update-profile" href="#">Profile</a>
+      <a class="nav-link logout" href="#">Logout</a>
+    </form>
+
+  <% } else { %>
+    <form class="form-inline">
+      <a class="nav-link register" href="#">Register</a>
+      <a class="nav-link login" href="#">Login</a>
+    </form>
+  <% } %>
+
+
+</nav>
+
+
