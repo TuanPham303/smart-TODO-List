@@ -31,86 +31,96 @@ function chooseCategories(searchTerm) {
     });
 
   const searchAmazon = amazonClient.itemSearch({ keywords: searchTerm })
-    .then((results) => {
-      return results;
+    .then((amazonResults) => {
+      return amazonResults;
     })
     .catch((err) => {
-      console.log('Amazon API error: ', err[0].Error);
+      console.log('Amazon API error: ', err);
+      return err;
     });
 
   function processGoogleResults(googleResults) {
-    let isRestaurant = 0;
-    googleResults.forEach((result) => {
-      const similarity = stringSimilarity.compareTwoStrings(searchTerm, result.name);
-      if (similarity > 0.7) {
-        isRestaurant = 1;
-        if (similarity > 0.9) {
-          isRestaurant = 2;
+    return new Promise((resolve,reject) => {
+      let isRestaurant = 0;
+      googleResults.forEach((result) => {
+        const similarity = stringSimilarity.compareTwoStrings(searchTerm, result.name);
+        if (similarity > 0.7) {
+          isRestaurant = 1;
+          if (similarity > 0.9) {
+            isRestaurant = 2;
+          }
         }
-      }
+      });
+      resolve(isRestaurant);
     });
-    return isRestaurant;
   }
 
-  function processAmazonResults(amazonResults) {
-    const returnArray = [];
-    let countMovie = 0;
-    let countBook = 0;
-    let countOther = 0;
-    amazonResults[0].Item.forEach((searchResult) => {
-      const item = searchResult.ItemAttributes[0].ProductGroup[0];
-      console.log(item);
-      if (item === 'Movie' || item === 'DVD' || item === 'Video') {
-        countMovie += 1;
-      } else if (item === 'Book' || item === 'eBooks') {
-        countBook += 1;
-      } else {
-        countOther += 1;
+  const processAmazonResults = (amazonResults) => {
+    return new Promise((resolve,reject) => {
+      const returnArray = [];
+      let countMovie = 0;
+      let countBook = 0;
+      let countOther = 0;
+      amazonResults.forEach((searchResult) => {
+        const item = searchResult.ItemAttributes[0].ProductGroup[0];
+        if (item === 'Movie' || item === 'DVD' || item === 'Video') {
+          countMovie += 1;
+        } else if (item === 'Book' || item === 'eBooks') {
+          countBook += 1;
+        } else {
+          countOther += 1;
+        }
+      });
+      //adjust values to fine tune accuracy/simplicity of results
+      if (countMovie > 0) {
+        returnArray.push('watch');
       }
+      if (countBook > 1 ) {
+        returnArray.push('read');
+      }
+      if (countOther > 2) {
+        returnArray.push('buy');
+      }
+      resolve(returnArray);
     });
-    //adjust values to fine tune accuracy/simplicity of results
-    if (countMovie > 0) {
-      returnArray.push('watch');
-    }
-    if (countBook > 1 ) {
-      returnArray.push('read');
-    }
-    if (countOther > 2) {
-      returnArray.push('buy');
-    }
-    return returnArray;
-  }
+  };
 
-  // searchMaps.then((results) => {
-  //   return processGoogleResults(results);
-  // });
+  const combineResults = (values) => {
+    const isResturant = values[1];
+    const amazonCategories = values[0];
+    return new Promise((resolve, reject) => {
+      if (isResturant === 2) {
+        resolve(['eat']);
+      }
+      if (isResturant === 1) {
+        amazonCategories.push('eat');
+      }
+      resolve(amazonCategories);
+    });
+  };
 
-  // searchAmazon.then((results) => {
-  //   return processAmazonResults(results);
-  // });
+  const amazon = searchAmazon
+    .then(amazonResults => {
+      return processAmazonResults(amazonResults);
+    })
+    .then(returnArray => {
+      return returnArray;
+    });
 
+  const maps = searchMaps
+    .then(mapsResults => {
+      return processGoogleResults(mapsResults);
+    })
+    .then(isRestaurant => {
+      return isRestaurant;
+    });
 
-  // Promise.all([searchMaps]).then(values => {
-  //   console.log(values);
-  // });
-
-  const isResturant = searchMaps.then((results) => {
-    return processGoogleResults(results, searchTerm);
-  });
-  const amazonCategories = searchAmazon.then((results) => {
-    return processAmazonResults(results);
-  });
-
-  if (isResturant === 2) {
-    return ['eat'];
-  }
-  if (isResturant === 1) {
-    amazonCategories.push('eat');
-  }
-  return amazonCategories;
-
+  return Promise.all([amazon, maps])
+    .then(values => {
+      console.log(combineResults(values));
+      return combineResults(values);
+    });
 }
-
 
 
 chooseCategories(process.argv[2]);
