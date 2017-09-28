@@ -19,16 +19,17 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/navbar-toggle.js"></script>
+    <script type="text/javascript" src="/scripts/categories-toggle.js"></script>
   </head>
 
   <body>
     <!-- page header -->
     <header class="container">
       <div class="d-flex justify-content-start">
-      <h1 class="p-2">Smart TODO List</h1>
-      <button class="btn navbar-toggle ml-auto p-2" type="button">
-        Nav
-      </button>
+        <h1 class="p-2">Smart TODO List</h1>
+        <button class="btn navbar-toggle ml-auto p-2" type="button">
+          Nav
+        </button>
       </div>
       <div class="collapse" id="navbar">
         <% include ./partials/_navbar %>
@@ -51,8 +52,8 @@
 
         <!-- to read list column -->
         <div class="card read-list">
-          <h5 class="card-header">To Read</h5>
-          <div class="card-block">
+          <h5 class="card-header read-header">To Read</h5>
+          <div class="card-block read-block">
             <ul class="list-group list-group-flush read-items">
               <li class="list-group-item">
                 <label class="custom-control custom-checkbox">
@@ -74,8 +75,8 @@
 
         <!-- to watch list column -->
         <div class="card watch-list">
-          <h5 class="card-header">To Watch</h5>
-          <div class="card-block">
+          <h5 class="card-header watch-header">To Watch</h5>
+          <div class="card-block watch-block">
             <ul class="list-group list-group-flush watch-items">
               <li class="list-group-item">
                 <label class="custom-control custom-checkbox">
@@ -91,8 +92,8 @@
 
         <!-- to buy list column -->
         <div class="card buy-list">
-          <h5 class="card-header">To Buy</h5>
-          <div class="card-block">
+          <h5 class="card-header buy-header">To Buy</h5>
+          <div class="card-block buy-block">
             <ul class="list-group list-group-flush buy-items">
               <li class="list-group-item">
                 <label class="custom-control custom-checkbox">
@@ -107,8 +108,8 @@
 
         <!-- to eat list column -->
         <div class="card eat-list">
-          <h5 class="card-header">To Eat</h5>
-          <div class="card-block">
+          <h5 class="card-header eat-header">To Eat</h5>
+          <div class="card-block eat-block">
             <ul class="list-group list-group-flush eat-items">
               <li class="list-group-item">
                 <label class="custom-control custom-checkbox">
