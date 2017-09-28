@@ -1,7 +1,5 @@
-body {
-  background-color: #EEE;
+@import '../node_modules/bootstrap/scss/bootstrap';
 
-  h1 {
-    color: #244751;
-  }
+.navbar {
+  color: $teal;
 }
