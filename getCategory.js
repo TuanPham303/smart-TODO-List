@@ -1,6 +1,8 @@
 require('dotenv').config();
-const amazon = require('amazon-product-api');
+const amazon           = require('amazon-product-api');
 const stringSimilarity = require('string-similarity');
+const knexConfig       = require("./knexfile");
+const knex             = require("knex")(knexConfig.development);
 
 const googleMapsClient = require('@google/maps').createClient({
   key: process.env.google_key,
@@ -13,17 +15,30 @@ const amazonClient = amazon.createClient({
   awsTag: process.env.amazon_tag
 });
 
+function chooseCategoriesDB(searchTerm) {
+  return knex('keywords').select('word', 'category').then((words) => {
+    let category;
+    words.forEach(word => {
+      if (searchTerm.includes(word.word)) {
+        category = word.category;
+      }
+    });
+    return category;
+  });
+}
 
-function chooseCategories(searchTerm) {
+
+function chooseCategoriesAPI(searchTerm) {
 
   const searchMaps = googleMapsClient.places({
     query: searchTerm,
-    radius: 50000,
+    radius: 25000,
     location: [49.282039, -123.108090],
     type: 'restaurant'
   })
     .asPromise()
     .then((response) => {
+      console.log('google');
       return response.json.results;
     })
     .catch((err) => {
@@ -32,6 +47,7 @@ function chooseCategories(searchTerm) {
 
   const searchAmazon = amazonClient.itemSearch({ keywords: searchTerm })
     .then((amazonResults) => {
+      console.log('amazon');
       return amazonResults;
     })
     .catch((err) => {
@@ -117,17 +133,31 @@ function chooseCategories(searchTerm) {
 
   return Promise.all([amazon, maps])
     .then(values => {
-      console.log(combineResults(values));
+      console.log('api result: ', combineResults(values));
       return combineResults(values);
     });
 }
 
 
-chooseCategories(process.argv[2]);
+function chooseCategories(searchTerm){
+  return chooseCategoriesDB(searchTerm).then(result => {
+    if (!result){
+      chooseCategoriesAPI(searchTerm).then(result => {
+        return result;
+      });
+    } else {
+      return result;
+    }
+  });
+}
+
+
+chooseCategories(process.argv[2]).then(result => {
+  console.log('total: ', result);
+});
 
 
 
 
 
-
-
+knex.destroy();
