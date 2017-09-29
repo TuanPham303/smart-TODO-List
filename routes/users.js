@@ -37,6 +37,7 @@ module.exports = knex => {
     });
   });
 
+
   // LOGIN -- need to link to login button in navbar
   router.get("/login", (req, res) => {
     let user = req.session.id;
@@ -58,16 +59,27 @@ module.exports = knex => {
     });
   });
 
-  // DELETE ITEMS
+///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
-    console.log("item to delete," + req.body.itemToDelete);
     let itemToDelete = req.body.itemToDelete;
     knex('items')
     .where('content', itemToDelete).del()
     .then(function(count){
-      res.send({result: "true"});
+      res.send({result: 'true'});
     });
     // res.redirect('/');
+  });
+
+///////////////////////// MOVE ITEMS ////////////////////////
+  router.put("/items/move", (req, res) => {
+    let itemToMove = req.body.itemToMove;
+    let moveToCategory = req.body.moveToCategory;
+    knex('items')
+    .where('content', itemToMove)
+    .update('category', moveToCategory)
+    .then(function(){
+      res.send({data: 'true'});
+    });
   });
 
   return router;
