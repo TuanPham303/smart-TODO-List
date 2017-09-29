@@ -9,11 +9,11 @@ const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const sass = require("node-sass-middleware");
 const app = express();
-const knexConfig  = require("./knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
-const morgan      = require('morgan');
-const knexLogger  = require('knex-logger');
 
+const knexConfig = require("./knexfile");
+const knex = require("knex")(knexConfig[ENV]);
+const morgan = require("morgan");
+const knexLogger = require("knex-logger");
 
 // Separated Routes for each Resource
 const usersRoutes = require("./routes/users");
