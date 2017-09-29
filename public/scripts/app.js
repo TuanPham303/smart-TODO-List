@@ -39,10 +39,24 @@ $('#itemSubmit').on('click', function() {
     const categories = JSON.parse(response);
 
     if (Array.isArray(categories)) {
-        console.log('categories: ', categories);
+        $('#multiMatch').css('display', 'inline');
+        categories.forEach(function(category){
+          console.log('category: ', category);
+          $(`#${category}Button`).css('display', 'inline');
+        });
     } else {
+      $('#itemInput').val('');
       getAllItems();
     }
+  });
+});
+
+$(".selectCategory").on('click', function(event){
+  $('.selectCategory').css('display', 'none');
+  $('#multiMatch').css('display', 'none');
+  $.post('/api/items/add/direct', {input: $('#itemInput').val(), category: event.target.value}, function(){
+    $('#itemInput').val('');
+    getAllItems();
   });
 });
 

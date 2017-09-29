@@ -37,7 +37,7 @@ module.exports = knex => {
   });
 
   router.post("/items/add/direct", (req, res) => {
-    const item = req.body.item;
+    const item = req.body.input;
     const category = req.body.category;
     knex.insert({content: item, user_id: '1', category: category, status: true}).into('items')
           .then(res.redirect('/'));

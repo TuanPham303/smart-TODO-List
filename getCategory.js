@@ -95,7 +95,7 @@ function chooseCategoriesAPI(searchTerm) {
       if (countBook > 1 ) {
         returnArray.push('read');
       }
-      if (countOther > 2) {
+      if (countOther > 4) {
         returnArray.push('buy');
       }
       resolve(returnArray);
@@ -134,7 +134,6 @@ function chooseCategoriesAPI(searchTerm) {
 
   return Promise.all([amazon, maps])
     .then(values => {
-      console.log('api result: ', combineResults(values));
       return combineResults(values);
     });
 }
@@ -153,27 +152,4 @@ module.exports = function chooseCategories(searchTerm){
     .then(result => {
       return ifDBsuccess(result, searchTerm);
     });
-
-    // if (result){
-    //   console.log('result true');
-    //   return result;
-    // } else {
-    //   chooseCategoriesAPI(searchTerm).then(result => {
-    //     return result;
-    //   });
-    // }
-  // });
-
 };
-
-
-
-// chooseCategories(process.argv[2]).then(result => {
-//   console.log('total: ', result);
-// });
-
-
-
-
-
-// knex.destroy();
