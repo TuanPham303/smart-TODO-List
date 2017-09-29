@@ -148,6 +148,7 @@ function ifDBsuccess(result, searchTerm) {
 }
 
 module.exports = function chooseCategories(searchTerm){
+
   return chooseCategoriesDB(searchTerm)
     .then(result => {
       return ifDBsuccess(result, searchTerm);
@@ -162,6 +163,7 @@ module.exports = function chooseCategories(searchTerm){
     //   });
     // }
   // });
+
 };
 
 
