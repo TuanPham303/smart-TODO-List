@@ -53,7 +53,7 @@ function chooseCategoriesAPI(searchTerm) {
     })
     .catch((err) => {
       console.log('Amazon API error: ', err);
-      return err;
+      return null;
     });
 
   function processGoogleResults(googleResults) {
@@ -74,6 +74,11 @@ function chooseCategoriesAPI(searchTerm) {
 
   const processAmazonResults = (amazonResults) => {
     return new Promise((resolve,reject) => {
+      if (!amazonResults) {
+        console.log('no amazon results');
+        return resolve([]);
+      }
+      console.log('amazon results');
       const returnArray = [];
       let countMovie = 0;
       let countBook = 0;
@@ -112,6 +117,7 @@ function chooseCategoriesAPI(searchTerm) {
       if (isResturant === 1) {
         amazonCategories.push('eat');
       }
+      console.log('a cat ', amazonCategories);
       resolve(amazonCategories);
     });
   };

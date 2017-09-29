@@ -22,9 +22,9 @@ module.exports = knex => {
   router.post("/items/add", (req, res) => {
     const item = req.body.input;
     chooseCategories(item).then(result => {
-      console.log(result);
+      console.log('result form choose cat ', result);
 
-      if (Array.isArray(result) && result.length > 1) {
+      if (Array.isArray(result) && result.length !== 1) {
         res.send(JSON.stringify(result));
       } else {
         if (Array.isArray(result)) {

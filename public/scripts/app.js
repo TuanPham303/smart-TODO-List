@@ -39,11 +39,15 @@ $('#itemSubmit').on('click', function() {
     const categories = JSON.parse(response);
 
     if (Array.isArray(categories)) {
+        // console.log(catagories);
         $('#multiMatch').css('display', 'inline');
-        categories.forEach(function(category){
-          console.log('category: ', category);
-          $(`#${category}Button`).css('display', 'inline');
-        });
+        if (!categories[0]) {
+          $(".selectCategory").css('display', 'inline');
+        } else {
+          categories.forEach(function(category){
+            $(`#${category}Button`).css('display', 'inline');
+          });
+        }
     } else {
       $('#itemInput').val('');
       getAllItems();
