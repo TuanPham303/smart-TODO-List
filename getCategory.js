@@ -15,6 +15,7 @@ const amazonClient = amazon.createClient({
   awsTag: process.env.amazon_tag
 });
 
+
 function chooseCategoriesDB(searchTerm) {
   return knex('keywords').select('word', 'category').then((words) => {
     let category;
@@ -139,7 +140,7 @@ function chooseCategoriesAPI(searchTerm) {
 }
 
 
-function chooseCategories(searchTerm){
+module.exports = function chooseCategories(searchTerm){
   return chooseCategoriesDB(searchTerm).then(result => {
     if (!result){
       chooseCategoriesAPI(searchTerm).then(result => {
@@ -149,15 +150,16 @@ function chooseCategories(searchTerm){
       return result;
     }
   });
-}
-
-
-chooseCategories(process.argv[2]).then(result => {
-  console.log('total: ', result);
-});
+};
 
 
 
+// chooseCategories(process.argv[2]).then(result => {
+//   console.log('total: ', result);
+// });
 
 
-knex.destroy();
+
+
+
+// knex.destroy();

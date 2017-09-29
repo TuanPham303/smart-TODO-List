@@ -1,9 +1,9 @@
-$(() => {
+$(function() {
   $.ajax({
     method: "GET",
     url: "/api/items"
-  }).done((items) => {
-    for(item of items) {
+  }).done(function(items) {
+    for(let item of items) {
       const liWrap = $("<li>").addClass("list-group-item");
       const labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
       const inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");

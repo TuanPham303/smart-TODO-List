@@ -3,6 +3,8 @@
 const express = require('express');
 const router  = express.Router();
 
+const chooseCategories = require("../getCategory");
+
 module.exports = (knex) => {
 
   router.get("/items", (req, res) => {
@@ -17,8 +19,15 @@ module.exports = (knex) => {
 // ADD ITEMS
   router.post("/items/add", (req, res) => {
     const item = req.body.item;
-    knex.insert({content: item, user_id: '1', category: 'read', status: true}).into('items')
+
+    chooseCategories(item).then(result => {
+      console.log(result);
+      console.log(typeof result);
+      knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
     .then(res.redirect('/'));
+    });
+
+
   });
 
   return router;
