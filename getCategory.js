@@ -143,6 +143,7 @@ function chooseCategoriesAPI(searchTerm) {
 module.exports = function chooseCategories(searchTerm){
   return chooseCategoriesDB(searchTerm).then(result => {
     if (!result){
+      console.log("choose Categories DB didnt work, moving to chooseCategories API");
       chooseCategoriesAPI(searchTerm).then(result => {
         return result;
       });

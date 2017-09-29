@@ -16,12 +16,24 @@
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
 
+    <!-- font awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/navbar-toggle.js"></script>
   </head>
 
   <body>
+
+  <div id="moveToggle" style="display: none">
+    Where do you want to move to?
+    <button class="moveItem" value="read">To Read</button>
+    <button class="moveItem" value="watch">To Watch</button>
+    <button class="moveItem" value="buy">To Buy</button>
+    <button class="moveItem" value="eat">To Eat</button>
+  </div>
+
     <!-- page header -->
     <header class="container">
       <h1>Smart TODO List</h1>
@@ -73,7 +85,7 @@
         <div class="card watch-list">
           <h5 class="card-header">To Watch</h5>
           <div class="card-block">
-            <ul class="list-group list-group-flush watch-items">
+            <ul class="list-group list-group-flush" id="watch-items">
               <li class="list-group-item">
                 <label class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input">
@@ -90,7 +102,7 @@
         <div class="card buy-list">
           <h5 class="card-header">To Buy</h5>
           <div class="card-block">
-            <ul class="list-group list-group-flush buy-items">
+            <ul class="list-group list-group-flush" id="buy-items">
               <li class="list-group-item">
                 <label class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input">
@@ -106,7 +118,7 @@
         <div class="card eat-list">
           <h5 class="card-header">To Eat</h5>
           <div class="card-block">
-            <ul class="list-group list-group-flush eat-items">
+            <ul class="list-group list-group-flush" id="eat-items">
               <li class="list-group-item">
                 <label class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input">
