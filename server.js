@@ -14,7 +14,6 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[ENV]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
-const amazon = require('amazon-product-api');
 
 // Separated Routes for each Resource
 const usersRoutes = require('./routes/users');
@@ -52,7 +51,11 @@ app.use('/api', usersRoutes(knex));
 
 // Home page
 app.get('/', (req, res) => {
-  res.render('index');
+  let templateVars = {
+    userId: req.session.id
+  };
+  // ** use id to query db for user's todos
+  res.render('index', templateVars);
 });
 
 app.listen(PORT, () => {
