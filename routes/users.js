@@ -22,8 +22,6 @@ module.exports = knex => {
   router.post("/items/add", (req, res) => {
     const item = req.body.input;
     chooseCategories(item).then(result => {
-      console.log('result form choose cat ', result);
-
       if (Array.isArray(result) && result.length !== 1) {
         res.send(JSON.stringify(result));
       } else {
@@ -40,9 +38,8 @@ module.exports = knex => {
     const item = req.body.input;
     const category = req.body.category;
     knex.insert({content: item, user_id: '1', category: category, status: true}).into('items')
-          .then(res.redirect('/'));
+          .then(res.send(JSON.stringify('success')));
   });
-
 
   // LOGIN -- need to link to login button in navbar
   router.get("/login", (req, res) => {

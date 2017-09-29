@@ -35,24 +35,24 @@ getAllItems();
 ///////////////////////////SUBMIT NEW ITEM //////////////////////
 
 $('#itemSubmit').on('click', function() {
-  $.post('/api/items/add', {input: $('#itemInput').val()}, function(response){
-    const categories = JSON.parse(response);
-
-    if (Array.isArray(categories)) {
-        // console.log(catagories);
-        $('#multiMatch').css('display', 'inline');
-        if (!categories[0]) {
-          $(".selectCategory").css('display', 'inline');
-        } else {
-          categories.forEach(function(category){
-            $(`#${category}Button`).css('display', 'inline');
-          });
-        }
-    } else {
-      $('#itemInput').val('');
-      getAllItems();
-    }
-  });
+  if ($('#itemInput').val() !== '') {
+    $.post('/api/items/add', {input: $('#itemInput').val()}, function(response){
+      const categories = JSON.parse(response);
+      if (Array.isArray(categories)) {
+          $('#multiMatch').css('display', 'inline');
+          if (!categories[0]) {
+            $(".selectCategory").css('display', 'inline');
+          } else {
+            categories.forEach(function(category){
+              $(`#${category}Button`).css('display', 'inline');
+            });
+          }
+      } else {
+        $('#itemInput').val('');
+        getAllItems();
+      }
+    });
+  }
 });
 
 $(".selectCategory").on('click', function(event){

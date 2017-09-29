@@ -31,6 +31,13 @@ function chooseCategoriesDB(searchTerm) {
 
 function chooseCategoriesAPI(searchTerm) {
 
+  const timeout = new Promise((resolve, reject) => {
+    let id = setTimeout(() => {
+      clearTimeout(id);
+      resolve(null);
+    }, 3000);
+  });
+
   const searchMaps = googleMapsClient.places({
     query: searchTerm,
     radius: 25000,
@@ -39,7 +46,6 @@ function chooseCategoriesAPI(searchTerm) {
   })
     .asPromise()
     .then((response) => {
-      console.log('google');
       return response.json.results;
     })
     .catch((err) => {
@@ -48,7 +54,6 @@ function chooseCategoriesAPI(searchTerm) {
 
   const searchAmazon = amazonClient.itemSearch({ keywords: searchTerm })
     .then((amazonResults) => {
-      console.log('amazon');
       return amazonResults;
     })
     .catch((err) => {
@@ -58,6 +63,9 @@ function chooseCategoriesAPI(searchTerm) {
 
   function processGoogleResults(googleResults) {
     return new Promise((resolve,reject) => {
+      if (!googleResults) {
+        return resolve(0);
+      }
       let isRestaurant = 0;
       googleResults.forEach((result) => {
         const similarity = stringSimilarity.compareTwoStrings(searchTerm, result.name);
@@ -75,10 +83,8 @@ function chooseCategoriesAPI(searchTerm) {
   const processAmazonResults = (amazonResults) => {
     return new Promise((resolve,reject) => {
       if (!amazonResults) {
-        console.log('no amazon results');
         return resolve([]);
       }
-      console.log('amazon results');
       const returnArray = [];
       let countMovie = 0;
       let countBook = 0;
@@ -117,12 +123,11 @@ function chooseCategoriesAPI(searchTerm) {
       if (isResturant === 1) {
         amazonCategories.push('eat');
       }
-      console.log('a cat ', amazonCategories);
       resolve(amazonCategories);
     });
   };
 
-  const amazon = searchAmazon
+  const amazon = Promise.race([searchAmazon, timeout])
     .then(amazonResults => {
       return processAmazonResults(amazonResults);
     })
@@ -130,7 +135,7 @@ function chooseCategoriesAPI(searchTerm) {
       return returnArray;
     });
 
-  const maps = searchMaps
+  const maps = Promise.race([searchMaps, timeout])
     .then(mapsResults => {
       return processGoogleResults(mapsResults);
     })
