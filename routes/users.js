@@ -4,6 +4,8 @@ const express = require("express");
 const router = express.Router();
 const cookieSession = require("cookie-session");
 
+const chooseCategories = require("../getCategory");
+
 module.exports = knex => {
   router.get("/items", (req, res) => {
     knex
@@ -17,10 +19,12 @@ module.exports = knex => {
   // ADD ITEMS
   router.post("/items/add", (req, res) => {
     const item = req.body.item;
-    knex
-      .insert({ content: item, user_id: "1", category: "read", status: true })
-      .into("items")
-      .then(res.redirect("/"));
+    chooseCategories(item).then(result => {
+      console.log(result);
+      console.log(typeof result);
+      knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
+        .then(res.redirect('/'));
+    });
   });
 
   // LOGIN -- need to link to login button in navbar
@@ -64,6 +68,17 @@ module.exports = knex => {
         res.redirect("/");
         console.log(error.message);
       });
+
+// DELETE ITEMS
+  router.post("/items/delete", (req, res) => {
+    console.log("item to delete,"+req.body.itemToDelete);
+    let itemToDelete = req.body.itemToDelete;
+    knex('items')
+    .where('content', itemToDelete).del()
+    .then(function(count){
+      res.send({result: "true"});
+    })
+    // res.redirect('/');
   });
 
   return router;

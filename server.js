@@ -57,6 +57,9 @@ app.get("/", (req, res) => {
   res.render("index", templateVars);
 });
 
+// delete items
+app.use("/items/delete", usersRoutes);
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
