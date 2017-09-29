@@ -50,32 +50,6 @@ module.exports = knex => {
       req.session.id = user.id;
       res.redirect("/");
     });
-
-    // knex("users")
-    //   .where("email", email)
-    //   .then(rows => {
-    //     // check if rows.length > 0 if it's empty we need to tell them user doesn't exist
-    //     if (rows.length > 0) {
-    //       return knex("users")
-    //         .where("password", password)
-    //         .andWhere("email", email);
-    //     } else {
-    //       throw new Error("user does not exist");
-    //       res.status(401).send("User Not Found");
-    //     }
-    //   })
-    //   .then(rows => {
-    //     // check if rows.length > 0 if it's empty we need to tell them they got the wrong password
-    //     if (rows.length > 0) {
-    //       req.session.id = rows[0].id;
-    //       res.redirect("/");
-    //     } else {
-    //       throw new Error("password is incorrect");
-    //     }
-    //   })
-    //   .catch(error => {
-    //     res.redirect("/");
-    //     console.log(error.message);
   });
 
   // DELETE ITEMS
