@@ -139,17 +139,29 @@ function chooseCategoriesAPI(searchTerm) {
     });
 }
 
+function ifDBsuccess(result, searchTerm) {
+  if (result) {
+    return Promise.resolve(result);
+  } else {
+    return Promise.resolve(chooseCategoriesAPI(searchTerm));
+  }
+}
 
 module.exports = function chooseCategories(searchTerm){
-  return chooseCategoriesDB(searchTerm).then(result => {
-    if (!result){
-      chooseCategoriesAPI(searchTerm).then(result => {
-        return result;
-      });
-    } else {
-      return result;
-    }
-  });
+  return chooseCategoriesDB(searchTerm)
+    .then(result => {
+      return ifDBsuccess(result, searchTerm);
+    });
+
+    // if (result){
+    //   console.log('result true');
+    //   return result;
+    // } else {
+    //   chooseCategoriesAPI(searchTerm).then(result => {
+    //     return result;
+    //   });
+    // }
+  // });
 };
 
 

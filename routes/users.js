@@ -23,11 +23,17 @@ module.exports = knex => {
     const item = req.body.item;
     chooseCategories(item).then(result => {
       console.log(result);
-      console.log(typeof result);
-      knex
-        .insert({ content: item, user_id: "1", category: result, status: true })
-        .into("items")
-        .then(res.redirect("/"));
+
+      if (Array.isArray(result)) {
+        if(result.length === 1){
+          result = result[0];
+        } else {
+          //ask user for input
+        }
+      }
+
+      knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
+        .then(res.redirect('/'));
     });
   });
 
@@ -56,12 +62,11 @@ module.exports = knex => {
   router.post("/items/delete", (req, res) => {
     console.log("item to delete," + req.body.itemToDelete);
     let itemToDelete = req.body.itemToDelete;
-    knex("items")
-      .where("content", itemToDelete)
-      .del()
-      .then(function(count) {
-        res.send({ result: "true" });
-      });
+    knex('items')
+    .where('content', itemToDelete).del()
+    .then(function(count){
+      res.send({result: "true"});
+    });
     // res.redirect('/');
   });
 
