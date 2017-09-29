@@ -7,6 +7,8 @@ const cookieSession = require("cookie-session");
 const chooseCategories = require("../getCategory");
 
 module.exports = knex => {
+  const User = require("../lib/user")(knex);
+
   router.get("/items", (req, res) => {
     knex
       .select("*")
@@ -48,38 +50,17 @@ module.exports = knex => {
   // LOGIN HANDLER
   router.post("/login", (req, res) => {
     const email = req.body.email;
-    const password = req.body.password;
+    const pw = req.body.password;
 
-    knex("users")
-      .where("email", email)
-      .then(rows => {
-        // check if rows.length > 0 if it's empty we need to tell them user doesn't exist
-        if (rows.length > 0) {
-          return knex("users")
-            .where("password", password)
-            .andWhere("email", email);
-        } else {
-          throw new Error("user does not exist");
-          res.status(401).send("User Not Found");
-        }
-      })
-      .then(rows => {
-        // check if rows.length > 0 if it's empty we need to tell them they got the wrong password
-        if (rows.length > 0) {
-          req.session.id = rows[0].id;
-          res.redirect("/");
-        } else {
-          throw new Error("password is incorrect");
-        }
-      })
-      .catch(error => {
-        res.redirect("/");
-        console.log(error.message);
-      });
+    User.authenticate(email, pw).then(user => {
+      req.session.id = user.id;
+      res.redirect("/");
+    });
+  });
 
-// DELETE ITEMS
+  // DELETE ITEMS
   router.post("/items/delete", (req, res) => {
-    console.log("item to delete,"+req.body.itemToDelete);
+    console.log("item to delete," + req.body.itemToDelete);
     let itemToDelete = req.body.itemToDelete;
     knex('items')
     .where('content', itemToDelete).del()
