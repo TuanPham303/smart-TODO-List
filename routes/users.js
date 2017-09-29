@@ -59,7 +59,7 @@ module.exports = knex => {
       res.redirect("/");
     });
   });
-  
+
   // UPDATE EMAIL & PASSWORD
   router.post("/profile", (req, res) => {
     const email = req.body.email;
@@ -69,7 +69,7 @@ module.exports = knex => {
       let id = result[0];
       req.session.user_id = id;
       res.redirect("/");
-    });
+    })
     .catch((error) => console.log("Update has failed."));
   });
 
