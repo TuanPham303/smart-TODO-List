@@ -52,10 +52,10 @@
 
     <!-- add item input -->
     <div class="container add-item">
-      <form action="api/items/add" method="post" class="input-group">
-        <input class="form-control todo-item" placeholder="Add a ToDo!" name="item">
-        <button class="btn" type="submit">Add</button>
-      </form>
+      <span class="input-group">
+        <input id="itemInput" class="form-control todo-item" placeholder="Add a ToDo!" name="item">
+        <button id="itemSubmit" class="btn">Add</button>
+      </span>
     </div>
     <% include ./partials/_prompt %>
     <!-- main container with categories and lists -->

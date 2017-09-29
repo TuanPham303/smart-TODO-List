@@ -1,11 +1,11 @@
-$(() => {
+$(function() {
 
 function renderItems(items){
   $("#read-items").empty();
   $("#watch-items").empty();
   $("#buy-items").empty();
   $("#eat-items").empty();
-  for(item of items) {
+  for(const item of items) {
     const liWrap = $("<li>").addClass("list-group-item");
     const labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
     const inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");
@@ -21,12 +21,29 @@ function renderItems(items){
 }
 
 ////////////////Get request to database and render items////////////////
-$.ajax({
-  method: "GET",
-  url: "/api/items",
-  success: function(data){
-    renderItems(data);
-  }
+function getAllItems(){
+  $.ajax({
+    method: "GET",
+    url: "/api/items",
+    success: function(data){
+      renderItems(data);
+    }
+  });
+}
+getAllItems();
+
+///////////////////////////SUBMIT NEW ITEM //////////////////////
+
+$('#itemSubmit').on('click', function() {
+  $.post('/api/items/add', {input: $('#itemInput').val()}, function(response){
+    const categories = JSON.parse(response);
+
+    if (Array.isArray(categories)) {
+        console.log('categories: ', categories);
+    } else {
+      getAllItems();
+    }
+  });
 });
 
 ////////////////////////////DELETE item//////////////////////////////
