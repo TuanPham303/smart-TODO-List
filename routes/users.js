@@ -30,5 +30,17 @@ module.exports = (knex) => {
 
   });
 
+// DELETE ITEMS
+  router.post("/items/delete", (req, res) => {
+    console.log("item to delete,"+req.body.itemToDelete);
+    let itemToDelete = req.body.itemToDelete;
+    knex('items')
+    .where('content', itemToDelete).del()
+    .then(function(count){
+      res.send({result: "true"});
+    })
+    // res.redirect('/');
+  });
+
   return router;
 };
