@@ -20,27 +20,36 @@ module.exports = (knex) => {
   router.post("/items/add", (req, res) => {
     const item = req.body.item;
 
-
-    // chooseCategories(item).then(result => {
-    //   console.log(result);
-    //   console.log(typeof result);
-      knex.insert({content: item, user_id: '1', category: 'read', status: true}).into('items')
+    chooseCategories(item).then(result => {
+      console.log(result);
+      console.log(typeof result);
+      knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
     .then(res.redirect('/'));
-    // });
-
+    });
 
   });
 
-// DELETE ITEMS
+///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
-    console.log("item to delete,"+req.body.itemToDelete);
     let itemToDelete = req.body.itemToDelete;
     knex('items')
     .where('content', itemToDelete).del()
     .then(function(count){
-      res.send({result: "true"});
-    })
+      res.send({result: 'true'});
+    });
     // res.redirect('/');
+  });
+
+///////////////////////// MOVE ITEMS ////////////////////////
+  router.put("/items/move", (req, res) => {
+    let itemToMove = req.body.itemToMove;
+    let moveToCategory = req.body.moveToCategory;
+    knex('items')
+    .where('content', itemToMove)
+    .update('category', moveToCategory)
+    .then(function(){
+      res.send({data: 'true'});
+    });
   });
 
   return router;
