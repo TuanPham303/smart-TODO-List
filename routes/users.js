@@ -22,9 +22,17 @@ module.exports = (knex) => {
 
     chooseCategories(item).then(result => {
       console.log(result);
-      console.log(typeof result);
+
+      if (Array.isArray(result)) {
+        if(result.length === 1){
+          result = result[0];
+        } else {
+          //ask user for input
+        }
+      }
+
       knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
-    .then(res.redirect('/'));
+        .then(res.redirect('/'));
     });
 
 
@@ -38,7 +46,7 @@ module.exports = (knex) => {
     .where('content', itemToDelete).del()
     .then(function(count){
       res.send({result: "true"});
-    })
+    });
     // res.redirect('/');
   });
 
