@@ -59,6 +59,20 @@ module.exports = knex => {
     });
   });
 
+  // UPDATE EMAIL & PASSWORD
+  router.post("/profile", (req, res) => {
+    const email = req.body.email;
+    const pw = req.body.password;
+
+    User.updateUser(email, pw).then((result) => {
+      let id = result[0];
+      req.session.user_id = id;
+      res.redirect("/");
+    });
+    .catch((error) => console.log("Update has failed."));
+  });
+
+
 ///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
     let itemToDelete = req.body.itemToDelete;
