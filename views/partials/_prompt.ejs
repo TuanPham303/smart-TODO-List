@@ -1,14 +1,24 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Prompt Partial</title>
-  </head>
-  <body>
-    <% if () { %>
-    <textarea>
-      <p>Did you mean: <% category %>? </p>
 
-    </textarea>
-  <% } %>
-  </body>
-</html>
+<!-- IF to-do item matches MULTIPLE categories show PROMPT, highlight RELEVANT LISTS -->
+    <% let category = 3;  %>
+    <% if (category > 2) { %>
+    <div class="container alert alert-light alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+      Did you mean: <strong><a href="#" class="alert-link">category</a></strong> or <strong><a href="#" class="alert-link">category</a></strong>?
+    </div>
+
+<!-- IF to-do item matches NO categories show PROMPT, highlight ALL LISTS -->
+    <% } else if (category = undefined) { %>
+    <div class="container alert alert-light alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+      Which <strong><a href="#" class="alert-link">category</a></strong> did you mean?
+    </div>
+
+<!-- IF to-do item matches database category, show PROMPT, slide up? -->
+    <% } else { %>
+    <div class="container alert alert-light">Added!</div>
+    <% } %>

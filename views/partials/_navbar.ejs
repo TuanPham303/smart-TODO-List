@@ -3,9 +3,7 @@
   <!-- if user IS logged in, show HI USER, UPDATE PROFILE, LOGOUT -->
   <!-- else user is NOT logged in, show LOGIN and REGISTER -->
 
-  <!-- let user = true or false (hardcoded for testing) -->
-  <% let user = false; %>
-  <% if (user) { %>
+  <% if (userId) { %>
     <form class="form-inline">
       <span class="login-hello">Hello User!</span>
       <a class="nav-link update-profile" href="#">Profile</a>
