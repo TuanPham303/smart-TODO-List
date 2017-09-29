@@ -52,6 +52,8 @@
       </div>
     </header>
 
+    <% if (userId) { %>
+
     <!-- add item input -->
     <div class="container add-item">
       <form action="api/items/add" method="post" class="input-group">
@@ -134,6 +136,7 @@
               </li>
             </ul>
           </div>
-    </div>
+        </div>
+      <% } %>
   </body>
 </html>
