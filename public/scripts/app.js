@@ -1,6 +1,8 @@
+$(() => {
+
 function renderItems(items){
   $("#read-items").empty();
-  for(const item of items) {
+  for(item of items) {
     const liWrap = $("<li>").addClass("list-group-item");
     const labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
     const inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");
