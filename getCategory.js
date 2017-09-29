@@ -79,7 +79,9 @@ function chooseCategoriesAPI(searchTerm) {
       let countBook = 0;
       let countOther = 0;
       amazonResults.forEach((searchResult) => {
+
         const item = searchResult.ItemAttributes[0].ProductGroup[0];
+        console.log(item);
         if (item === 'Movie' || item === 'DVD' || item === 'Video') {
           countMovie += 1;
         } else if (item === 'Book' || item === 'eBooks') {
