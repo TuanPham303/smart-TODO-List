@@ -27,16 +27,15 @@
     <header class="container">
       <div class="d-flex justify-content-start">
         <h1 class="p-2">Smart TODO List</h1>
-        <button class="btn navbar-toggle ml-auto p-2" type="button">
-          Nav
-        </button>
       </div>
-      <div class="collapse" id="navbar">
         <% include ./partials/_navbar %>
+      <div class="container collapse" id="loginbar">
+        <% include ./partials/_login %>
+      </div>
+      <div class="container collapse" id="registerbar">
+        <% include ./partials/_register %>
       </div>
     </header>
-
-    <% include ./partials/_login %>
 
     <!-- add item input -->
     <div class="container add-item">
