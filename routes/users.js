@@ -72,7 +72,7 @@ module.exports = knex => {
     knex("users")
     .where("email", user)
     .update({
-      password: pw
+      password: hashedPassword
     })
     .then((count) => {
       res.redirect("/");
