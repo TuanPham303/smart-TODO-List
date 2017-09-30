@@ -13,8 +13,8 @@ $(function () {
       const spanWrap = $("<span>").addClass("custom-control-indicator");
       const contentSpan = $('<span>').addClass("contentSpan custom-control-description").text(item.content);
       const iconWrap = $("<div>").addClass("d-flex ml-auto icon-wrap");
-      const moveButton = $('<i>').addClass('fa fa-arrows-alt');
-      const deleteButton = $('<i>').addClass('fa fa-trash-o');
+      const moveButton = $('<i>').addClass('fa fa-arrows-alt').attr("data-toggle", "tooltip").attr("data-placement", "top").attr("title", "Move to another list");
+      const deleteButton = $('<i>').addClass('fa fa-trash-o').attr("data-toggle", "tooltip").attr("data-placement", "top").attr("title", "Delete");
       if (item.status === false) {
         inputWrap.prop("checked", true);
         contentSpan.addClass("strike");
