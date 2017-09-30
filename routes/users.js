@@ -67,13 +67,14 @@ module.exports = knex => {
   router.post("/profile", (req, res) => {
     const user = req.session.id;
     const pw = req.body.newpassword;
+    let hashedPassword = bcrypt.hashSync(pw, 10);
 
     knex("users")
     .where("email", user)
     .update({
       password: pw
     })
-    .then((count)=>{
+    .then((count) => {
       res.redirect("/");
     });
   });
@@ -81,12 +82,12 @@ module.exports = knex => {
 ///////////////////////// REGISTER //////////////////////
   router.post("/register", (req, res) => {
     const email = req.body.newEmail;
-    // let hashedPassword;
-    // hashedPassword = bcrypt.hashSync(req.body.newPassword, 10);
     const pw = req.body.newPassword;
+    let hashedPassword = bcrypt.hashSync(pw, 10);
+
     knex('users')
-    .insert({email: email, password: pw})
-    .then( () => {
+    .insert({email: email, password: hashedPassword})
+    .then((count) => {
       req.session.id = req.body.newEmail;
       res.redirect("/");
     });
