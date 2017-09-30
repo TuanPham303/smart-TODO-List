@@ -38,10 +38,12 @@ $(function () {
 
   $("#itemSubmit").on("click", function() {
     if ($("#itemInput").val() !== "") {
+      $("#loadingSpinner").css("display", "inline");
       $.post("/api/items/add", { input: $("#itemInput").val() }, function(
         response
       ) {
         const categories = JSON.parse(response);
+        $("#loadingSpinner").css("display", "none");
         if (Array.isArray(categories)) {
           $("#multiMatch").css("display", "inline");
           if (!categories[0]) {

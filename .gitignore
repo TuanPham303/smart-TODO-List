@@ -5,3 +5,4 @@ public/styles
 *.sqlite3
 .jshintrc
 .vscode
+.DS_Store
