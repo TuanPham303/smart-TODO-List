@@ -35,7 +35,7 @@ function chooseCategoriesAPI(searchTerm) {
     let id = setTimeout(() => {
       clearTimeout(id);
       resolve(null);
-    }, 3000);
+    }, 1500);
   });
 
   const searchMaps = googleMapsClient.places({
