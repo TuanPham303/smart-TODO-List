@@ -44,7 +44,7 @@ module.exports = knex => {
     // UPDATE ITEM STATUS
     router.post("/items/update", (req, res) => {
       knex("items")
-        .where("content", req.body.item)
+        .where("content", req.body.content)
         .update("status", req.body.status);
     });
   });

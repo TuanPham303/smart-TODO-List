@@ -1,18 +1,18 @@
 $(() => {
   $(".categories").on("click", ".custom-control-input", function(t) {
-    let item = $(t.target)
-      .parent()
-      .text();
+    const item = $(t.target).siblings(".custom-control-description");
+    const content = $(item).text();
     let status = !this.checked;
 
-    // $(item).toggleClass("strike");
+    $(item).toggleClass("strike");
 
     console.log(status);
+    console.log(content);
     $.ajax({
       url: "api/items/update",
       method: "POST",
       data: {
-        item: item,
+        content: content,
         status: status
       },
       success: function(data) {
