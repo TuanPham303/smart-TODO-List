@@ -37,7 +37,7 @@ $(function () {
 
   ///////////////////////////SUBMIT NEW ITEM //////////////////////
 
-  $("#itemSubmit").on("click", function () {
+  function submit() {
     if ($("#itemInput").val() !== "") {
       $("#loadingSpinner").css("display", "inline");
       $.post("/api/items/add", { input: $("#itemInput").val() }, function(
@@ -60,14 +60,27 @@ $(function () {
         }
       });
     }
+  }
+
+  //submit on 'enter'
+  $("#itemInput").keypress(function(event) {
+    if (event.which == 13) {
+      event.preventDefault();
+      submit();
+    }
   });
 
+  //submit on click
+  $("#itemSubmit").on("click", function () {
+    submit();
+  });
+
+  //close category selection prompt ithout adding to database
   $(".closePrompt").on("click", function (event) {
     $("#multiMatch").css("display", "none");
   });
 
-  ////////////////Get request to database and render items////////////////
-
+  //add to database by choosing from multiple matched categories
   $(".selectCategory").on("click", function (event) {
     $(".selectCategory").css("display", "none");
     $("#multiMatch").css("display", "none");
