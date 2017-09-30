@@ -7,14 +7,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+
     <!-- layout style sheet -->
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
     <!-- stylesheet for item list container -->
     <link rel="stylesheet" href="/styles/categories.css" type="text/css" />
-
-    <!-- google font -->
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
 
     <!-- font awesome -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -23,13 +23,14 @@
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/navbar-toggle.js"></script>
     <script type="text/javascript" src="/scripts/categories-toggle.js"></script>
+    <script type="text/javascript" src="/scripts/checkbox.js"></script>
   </head>
 
   <body>
 
-  <div id="moveToggle" class="container-fluid" >
-    Where do you want to move to?
-    <div class="row">
+  <div id="moveToggle">
+    <p>Move to:</p>
+    <div class="itemWrap">
       <button class="moveItem" value="read">To Read</button>
       <button class="moveItem" value="watch">To Watch</button>
       <button class="moveItem" value="buy">To Buy</button>
@@ -37,18 +38,10 @@
     </div>
   </div>
 
-  <div id="multiMatch" style="display: none">
-    What did you mean?
-    <button id="readButton" style="display: none" class="selectCategory" value="read">To Read</button>
-    <button id="watchButton" style="display: none" class="selectCategory" value="watch">To Watch</button>
-    <button id="buyButton" style="display: none" class="selectCategory" value="buy">To Buy</button>
-    <button id="eatButton" style="display: none" class="selectCategory" value="eat">To Eat</button>
-  </div>
-
     <!-- page header -->
     <header class="container">
       <div class="d-flex justify-content-start">
-        <h1 class="p-2">Smart TODO List</h1>
+        <h1 class="p-2"><b>Smart TODO List</b></h1>
       </div>
         <% include ./partials/_navbar %>
       <div class="container collapse" id="loginbar">
@@ -68,10 +61,11 @@
     <div class="container add-item">
       <span class="input-group">
         <input id="itemInput" class="form-control todo-item" placeholder="Add a ToDo!" name="item">
-        <button id="itemSubmit" class="btn">Add</button>
+        <button id="itemSubmit" class="btn btn-dark">Add</button>
       </span>
     </div>
     <% include ./partials/_prompt %>
+
     <!-- main container with categories and lists -->
     <div class="container">
       <div class="card-deck categories">
@@ -81,20 +75,6 @@
           <h5 class="card-header" id="read-header">To Read</h5>
           <div class="card-block" id="read-block">
             <ul class="list-group list-group-flush" id="read-items">
-              <li class="list-group-item">
-                <label class="custom-control custom-checkbox readItem">
-                  <input type="checkbox" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Thing to Read
-                </label>
-              </li>
-              <li class="list-group-item">
-                <label class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Harry Potter
-                </label>
-              </li>
             </ul>
           </div>
         </div>
@@ -104,13 +84,6 @@
           <h5 class="card-header" id="watch-header">To Watch</h5>
           <div class="card-block" id="watch-block">
             <ul class="list-group list-group-flush" id="watch-items">
-              <li class="list-group-item">
-                <label class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Thing to Watch
-                </label>
-              </li>
             </ul>
           </div>
         </div>
@@ -121,13 +94,6 @@
           <h5 class="card-header" id="buy-header">To Buy</h5>
           <div class="card-block" id="buy-block">
             <ul class="list-group list-group-flush" id="buy-items">
-              <li class="list-group-item">
-                <label class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Thing to Buy
-                </label>
-              </li>
             </ul>
           </div>
         </div>
@@ -137,13 +103,6 @@
           <h5 class="card-header" id="eat-header">To Eat</h5>
           <div class="card-block" id="eat-block">
             <ul class="list-group list-group-flush" id="eat-items">
-              <li class="list-group-item">
-                <label class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Thing to Eat
-                </label>
-              </li>
             </ul>
           </div>
         </div>

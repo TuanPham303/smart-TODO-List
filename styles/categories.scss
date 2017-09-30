@@ -1,5 +1,13 @@
-@import '../node_modules/bootstrap/scss/bootstrap';
+@import "../node_modules/bootstrap/scss/bootstrap";
 
-.col {
-  border: 2px solid $gray-300;
+.strike {
+  text-decoration: line-through;
+}
+
+.icon-wrap {
+  visibility: hidden;
+}
+
+.list-group-item:hover .icon-wrap {
+  visibility: visible;
 }

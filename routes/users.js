@@ -3,23 +3,26 @@
 const express = require("express");
 const router = express.Router();
 const cookieSession = require("cookie-session");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 const chooseCategories = require("../getCategory");
 
 module.exports = knex => {
   const User = require("../lib/user")(knex);
 
+/////////////////// RENDER ITEMS //////////////////////
   router.get("/items", (req, res) => {
     knex
-      .select("*")
-      .from("items")
+      .from('items')
+      .innerJoin('users', 'items.user_id', 'users.id')
+      .where('user_id', req.session.id)
       .then(results => {
+        console.log(results);
         res.json(results);
       });
   });
 
-  // ADD ITEMS
+/////////////////////// ADD ITEMS ////////////////////////
   router.post("/items/add", (req, res) => {
     const item = req.body.input;
     chooseCategories(item).then(result => {
@@ -29,17 +32,35 @@ module.exports = knex => {
         if (Array.isArray(result)) {
           result = result[0];
         }
-        knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
-          .then(res.send(JSON.stringify('success')));
+        knex
+          .insert({
+            content: item,
+            user_id: req.session.id,
+            category: result,
+            status: true
+          })
+          .into("items")
+          .then(res.send(JSON.stringify("success")));
       }
     });
   });
 
+  // UPDATE ITEM STATUS
+  router.post("/items/update", (req, res) => {
+    knex("items")
+      .where("content", req.body.content)
+      .update("status", req.body.status)
+      .then();
+  });
+
+
   router.post("/items/add/direct", (req, res) => {
     const item = req.body.input;
     const category = req.body.category;
-    knex.insert({content: item, user_id: '1', category: category, status: true}).into('items')
-          .then(res.send(JSON.stringify('success')));
+    knex
+      .insert({ content: item, user_id: req.session.id, category: category, status: true })
+      .into("items")
+      .then(res.send(JSON.stringify("success")));
   });
 
   // LOGIN -- need to link to login button in navbar
@@ -56,6 +77,7 @@ module.exports = knex => {
   router.post("/login", (req, res) => {
     const email = req.body.email;
     const pw = req.body.password;
+
 
     User.authenticate(email, pw)
     .then(user => {
@@ -75,6 +97,7 @@ module.exports = knex => {
     let hashedPassword = bcrypt.hashSync(pw, 10);
 
     knex("users")
+    
     .where("email", user)
     .update({
       password: hashedPassword
@@ -84,19 +107,21 @@ module.exports = knex => {
     });
   });
 
-///////////////////////// REGISTER //////////////////////
+  ///////////////////////// REGISTER //////////////////////
   router.post("/register", (req, res) => {
     const email = req.body.newEmail;
     const pw = req.body.newPassword;
     let hashedPassword = bcrypt.hashSync(pw, 10);
-
-    knex('users')
-    .insert({email: email, password: hashedPassword})
-    .then((count) => {
-      req.session.id = req.body.newEmail;
-      res.redirect("/");
-    });
-      // );
+  
+      knex("users")
+      .returning('id')
+      .insert({ email: email, password: hashedPassword })
+      .then((user) => {
+        req.session.email = req.body.newEmail;
+        req.session.id = user.toString();
+        res.redirect("/");
+      });
+    // );
   });
 
 ////////////LOG OUT///////////////
@@ -106,27 +131,29 @@ router.post('/logout', (request, response) => {
   response.redirect('/');
 });
 
-///////////////////////// DELETE ITEMS //////////////////////////
+  ///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
     let itemToDelete = req.body.itemToDelete;
-    knex('items')
-    .where('content', itemToDelete).del()
-    .then(function(count){
-      res.send({result: 'true'});
-    });
+    console.log(itemToDelete);
+    knex("items")
+      .where("id", itemToDelete)
+      .del()
+      .then(function (count) {
+        res.send({ result: true });
+      });
     // res.redirect('/');
   });
 
-///////////////////////// MOVE ITEMS ////////////////////////
+  ///////////////////////// MOVE ITEMS ////////////////////////
   router.put("/items/move", (req, res) => {
     let itemToMove = req.body.itemToMove;
     let moveToCategory = req.body.moveToCategory;
-    knex('items')
-    .where('content', itemToMove)
-    .update('category', moveToCategory)
-    .then(function(){
-      res.send({data: 'true'});
-    });
+    knex("items")
+      .where("id", itemToMove)
+      .update("category", moveToCategory)
+      .then(function () {
+        res.send({ data: "true" });
+      });
   });
 
   return router;

@@ -1,24 +1,20 @@
+<div class="d-flex justify-content-center">
+  <span id="loadingSpinner" role="alert" style="display: none">
+    <img src="loadingSpinner.gif" style="height:40px;">
+  </span>
+</div>
 
-<!-- IF to-do item matches MULTIPLE categories show PROMPT, highlight RELEVANT LISTS -->
-    <% let category = 3;  %>
-    <% if (category > 2) { %>
-    <div class="container alert alert-light alert-dismissible fade show" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<div class="d-flex justify-content-center">
+  <span id="multiMatch" role="alert" style="display: none">
+    Which did you mean:
+    <button id="readButton" style="display: none" class="selectCategory btn btn-dark" value="read">To Read</button>
+    <button id="watchButton" style="display: none" class="selectCategory btn btn-dark" value="watch">To Watch</button>
+    <button id="buyButton" style="display: none" class="selectCategory btn btn-dark" value="buy">To Buy</button>
+    <button id="eatButton" style="display: none" class="selectCategory btn btn-dark" value="eat">To Eat</button>
+
+    <span style="visibility: hidden">-</span>
+    <button type="button" class="close closePrompt">
       <span aria-hidden="true">&times;</span>
-      </button>
-      Did you mean: <strong><a href="#" class="alert-link">category</a></strong> or <strong><a href="#" class="alert-link">category</a></strong>?
-    </div>
-
-<!-- IF to-do item matches NO categories show PROMPT, highlight ALL LISTS -->
-    <% } else if (category = undefined) { %>
-    <div class="container alert alert-light alert-dismissible fade show" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-      </button>
-      Which <strong><a href="#" class="alert-link">category</a></strong> did you mean?
-    </div>
-
-<!-- IF to-do item matches database category, show PROMPT, slide up? -->
-    <% } else { %>
-    <div class="container alert alert-light">Added!</div>
-    <% } %>
+    </button>
+  </span>
+</div>
