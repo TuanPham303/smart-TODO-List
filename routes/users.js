@@ -25,18 +25,26 @@ module.exports = knex => {
       console.log(result);
 
       if (Array.isArray(result)) {
-        if(result.length === 1){
+        if (result.length === 1) {
           result = result[0];
         } else {
           //ask user for input
         }
       }
 
-      knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
-        .then(res.redirect('/'));
+      knex
+        .insert({ content: item, user_id: "1", category: result, status: true })
+        .into("items")
+        .then(res.redirect("/"));
     });
   });
 
+  // UPDATE ITEM STATUS
+  router.post("/items/update", (req, res) => {
+    knex("items")
+      .where("content", req.body.item)
+      .update("status", req.body.status);
+  });
 
   // LOGIN -- need to link to login button in navbar
   router.get("/login", (req, res) => {
@@ -59,27 +67,28 @@ module.exports = knex => {
     });
   });
 
-///////////////////////// DELETE ITEMS //////////////////////////
+  ///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
     let itemToDelete = req.body.itemToDelete;
-    knex('items')
-    .where('content', itemToDelete).del()
-    .then(function(count){
-      res.send({result: 'true'});
-    });
+    knex("items")
+      .where("content", itemToDelete)
+      .del()
+      .then(function(count) {
+        res.send({ result: "true" });
+      });
     // res.redirect('/');
   });
 
-///////////////////////// MOVE ITEMS ////////////////////////
+  ///////////////////////// MOVE ITEMS ////////////////////////
   router.put("/items/move", (req, res) => {
     let itemToMove = req.body.itemToMove;
     let moveToCategory = req.body.moveToCategory;
-    knex('items')
-    .where('content', itemToMove)
-    .update('category', moveToCategory)
-    .then(function(){
-      res.send({data: 'true'});
-    });
+    knex("items")
+      .where("content", itemToMove)
+      .update("category", moveToCategory)
+      .then(function() {
+        res.send({ data: "true" });
+      });
   });
 
   return router;
