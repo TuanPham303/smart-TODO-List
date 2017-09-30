@@ -32,6 +32,12 @@ module.exports = knex => {
         knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
           .then(res.send(JSON.stringify('success')));
       }
+
+  // UPDATE ITEM STATUS
+  router.post("/items/update", (req, res) => {
+    knex("items")
+      .where("content", req.body.item)
+      .update("status", req.body.status);
     });
   });
 
@@ -62,6 +68,8 @@ module.exports = knex => {
       res.redirect("/");
     });
   });
+
+
 
   // UPDATE EMAIL & PASSWORD
   router.post("/profile", (req, res) => {
@@ -105,24 +113,25 @@ router.post('/logout', (request, response) => {
 ///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
     let itemToDelete = req.body.itemToDelete;
-    knex('items')
-    .where('content', itemToDelete).del()
-    .then(function(count){
-      res.send({result: 'true'});
-    });
+    knex("items")
+      .where("content", itemToDelete)
+      .del()
+      .then(function(count) {
+        res.send({ result: "true" });
+      });
     // res.redirect('/');
   });
 
-///////////////////////// MOVE ITEMS ////////////////////////
+  ///////////////////////// MOVE ITEMS ////////////////////////
   router.put("/items/move", (req, res) => {
     let itemToMove = req.body.itemToMove;
     let moveToCategory = req.body.moveToCategory;
-    knex('items')
-    .where('content', itemToMove)
-    .update('category', moveToCategory)
-    .then(function(){
-      res.send({data: 'true'});
-    });
+    knex("items")
+      .where("content", itemToMove)
+      .update("category", moveToCategory)
+      .then(function() {
+        res.send({ data: "true" });
+      });
   });
 
   return router;
