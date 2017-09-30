@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const cookieSession = require("cookie-session");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 const chooseCategories = require("../getCategory");
 
@@ -29,23 +29,33 @@ module.exports = knex => {
         if (Array.isArray(result)) {
           result = result[0];
         }
-        knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
-          .then(res.send(JSON.stringify('success')));
+        knex
+          .insert({
+            content: item,
+            user_id: "1",
+            category: result,
+            status: true
+          })
+          .into("items")
+          .then(res.send(JSON.stringify("success")));
       }
     });
-  // UPDATE ITEM STATUS
-  router.post("/items/update", (req, res) => {
-    knex("items")
-      .where("content", req.body.item)
-      .update("status", req.body.status);
+
+    // UPDATE ITEM STATUS
+    router.post("/items/update", (req, res) => {
+      knex("items")
+        .where("content", req.body.content)
+        .update("status", req.body.status);
     });
   });
 
   router.post("/items/add/direct", (req, res) => {
     const item = req.body.input;
     const category = req.body.category;
-    knex.insert({content: item, user_id: '1', category: category, status: true}).into('items')
-          .then(res.send(JSON.stringify('success')));
+    knex
+      .insert({ content: item, user_id: "1", category: category, status: true })
+      .into("items")
+      .then(res.send(JSON.stringify("success")));
   });
 
   // LOGIN -- need to link to login button in navbar
@@ -69,48 +79,46 @@ module.exports = knex => {
     });
   });
 
-
-
   // UPDATE EMAIL & PASSWORD
   router.post("/profile", (req, res) => {
     const user = req.session.id;
     const pw = req.body.newpassword;
 
     knex("users")
-    .where("email", user)
-    .update({
-      password: pw
-    })
-    .then((count)=>{
-      res.redirect("/");
-    });
+      .where("email", user)
+      .update({
+        password: pw
+      })
+      .then(count => {
+        res.redirect("/");
+      });
   });
 
-///////////////////////// REGISTER //////////////////////
+  ///////////////////////// REGISTER //////////////////////
   router.post("/register", (req, res) => {
     const email = req.body.newEmail;
     // let hashedPassword;
     // hashedPassword = bcrypt.hashSync(req.body.newPassword, 10);
     const pw = req.body.newPassword;
-    knex('users')
-    .insert({email: email, password: pw})
-    .then( () => {
-      req.session.id = req.body.newEmail;
-      res.redirect("/");
-    });
-      // );
+    knex("users")
+      .insert({ email: email, password: pw })
+      .then(() => {
+        req.session.id = req.body.newEmail;
+        res.redirect("/");
+      });
+    // );
   });
 
-////////////LOG OUT///////////////
-router.post('/logout', (request, response) => {
-  console.log('logout goes here');
-  request.session.id = null;
-  request.session = null;
-  console.log("session cookie cleared");
-  response.redirect('/');
-});
+  ////////////LOG OUT///////////////
+  router.post("/logout", (request, response) => {
+    console.log("logout goes here");
+    request.session.id = null;
+    request.session = null;
+    console.log("session cookie cleared");
+    response.redirect("/");
+  });
 
-///////////////////////// DELETE ITEMS //////////////////////////
+  ///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
     let itemToDelete = req.body.itemToDelete;
     knex("items")
