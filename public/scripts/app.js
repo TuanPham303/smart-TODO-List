@@ -10,7 +10,12 @@ $(function () {
       const labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
       const inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");
       const spanWrap = $("<span>").addClass("custom-control-indicator");
-      const contentSpan = $('<span>').addClass('contentSpan custom-control-description').attr('data-item-id', item.id).text(item.content);
+      const contentSpan = $('<span>')
+      .addClass('contentSpan custom-control-description')
+      .attr({
+        'data-item-id': item.id,
+      })
+      .text(item.content);
       const deleteButton = $('<i>').addClass('fa fa-trash');
       const moveButton = $('<i>').addClass('fa fa-arrows-alt');
       if (item.status === false) {

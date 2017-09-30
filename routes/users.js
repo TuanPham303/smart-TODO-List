@@ -13,6 +13,7 @@ module.exports = knex => {
 /////////////////// RENDER ITEMS //////////////////////
   router.get("/items", (req, res) => {
     knex
+      .select('items.id', 'items.user_id', 'items.category', 'items.content', 'items.status', 'users.email', 'users.password')
       .from('items')
       .innerJoin('users', 'items.user_id', 'users.id')
       .where('user_id', req.session.id)
@@ -120,10 +121,8 @@ module.exports = knex => {
 
   ////////////LOG OUT///////////////
   router.post("/logout", (request, response) => {
-    console.log("logout goes here");
     request.session.id = null;
     request.session = null;
-    console.log("session cookie cleared");
     response.redirect("/");
   });
 
@@ -135,6 +134,7 @@ module.exports = knex => {
       .where("id", itemToDelete)
       .del()
       .then(function (count) {
+        console.log('item deleted');
         res.send({ result: true });
       });
     // res.redirect('/');
