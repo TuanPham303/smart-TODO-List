@@ -101,10 +101,8 @@ module.exports = knex => {
 
 ////////////LOG OUT///////////////
 router.post('/logout', (request, response) => {
-  console.log('logout goes here');
   request.session.id = null;
   request.session = null;
-  console.log("session cookie cleared");
   response.redirect('/');
 });
 
