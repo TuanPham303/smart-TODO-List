@@ -123,11 +123,12 @@ module.exports = knex => {
   ///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
     let itemToDelete = req.body.itemToDelete;
+    console.log(itemToDelete);
     knex("items")
-      .where("content", itemToDelete)
+      .where("id", itemToDelete)
       .del()
       .then(function (count) {
-        res.send({ result: "true" });
+        res.send({ result: true });
       });
     // res.redirect('/');
   });
@@ -137,7 +138,7 @@ module.exports = knex => {
     let itemToMove = req.body.itemToMove;
     let moveToCategory = req.body.moveToCategory;
     knex("items")
-      .where("content", itemToMove)
+      .where("id", itemToMove)
       .update("category", moveToCategory)
       .then(function () {
         res.send({ data: "true" });

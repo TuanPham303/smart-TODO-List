@@ -10,7 +10,7 @@ $(function () {
       const labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
       const inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");
       const spanWrap = $("<span>").addClass("custom-control-indicator");
-      const contentSpan = $('<span>').addClass('contentSpan custom-control-description').text(item.content);
+      const contentSpan = $('<span>').addClass('contentSpan custom-control-description').attr('data-item-id', item.id).text(item.content);
       const deleteButton = $('<i>').addClass('fa fa-trash');
       const moveButton = $('<i>').addClass('fa fa-arrows-alt');
       if (item.status === false) {
@@ -83,7 +83,8 @@ $(function () {
         itemToDelete: $(event.target)
           .parent()
           .find("label")
-          .text()
+          .find(".contentSpan")
+          .attr('data-item-id')
       },
       success: function(result) {
         $.ajax({
@@ -117,7 +118,8 @@ $(function () {
     itemToMove = $(event.target)
       .parent()
       .find("label")
-      .text();
+      .find(".contentSpan")
+      .attr('data-item-id');
     $("#moveToggle").toggle();
     itemWrapToDelete = $(event.target).parentsUntil(".list-group");
   });
