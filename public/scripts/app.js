@@ -11,10 +11,12 @@ $(function () {
       const labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
       const inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");
       const spanWrap = $("<span>").addClass("custom-control-indicator");
+
       const contentSpan = $('<span>').addClass("contentSpan custom-control-description").text(item.content);
       const iconWrap = $("<div>").addClass("d-flex ml-auto icon-wrap");
       const moveButton = $('<i>').addClass('fa fa-arrows-alt').attr("data-toggle", "tooltip").attr("data-placement", "top").attr("title", "Move to another list");
       const deleteButton = $('<i>').addClass('fa fa-trash-o').attr("data-toggle", "tooltip").attr("data-placement", "top").attr("title", "Delete");
+
       if (item.status === false) {
         inputWrap.prop("checked", true);
         contentSpan.addClass("strike");
@@ -41,7 +43,7 @@ $(function () {
 
   ///////////////////////////SUBMIT NEW ITEM //////////////////////
 
-  $("#itemSubmit").on("click", function () {
+  function submit() {
     if ($("#itemInput").val() !== "") {
       $("#loadingSpinner").css("display", "inline");
       $.post("/api/items/add", { input: $("#itemInput").val() }, function (
@@ -64,10 +66,27 @@ $(function () {
         }
       });
     }
+  }
+
+  //submit on 'enter'
+  $("#itemInput").keypress(function(event) {
+    if (event.which == 13) {
+      event.preventDefault();
+      submit();
+    }
   });
 
-  ////////////////Get request to database and render items////////////////
+  //submit on click
+  $("#itemSubmit").on("click", function () {
+    submit();
+  });
 
+  //close category selection prompt ithout adding to database
+  $(".closePrompt").on("click", function (event) {
+    $("#multiMatch").css("display", "none");
+  });
+
+  //add to database by choosing from multiple matched categories
   $(".selectCategory").on("click", function (event) {
     $(".selectCategory").css("display", "none");
     $("#multiMatch").css("display", "none");
@@ -90,7 +109,8 @@ $(function () {
         itemToDelete: $(event.target)
           .parent()
           .find("label")
-          .text()
+          .find(".contentSpan")
+          .attr('data-item-id')
       },
       success: function (result) {
         $.ajax({
@@ -121,10 +141,12 @@ $(function () {
   let itemToMove;
   let itemWrapToDelete;
   $(".categories").on("click", ".fa-arrows-alt", function (event) {
+    event.stopPropagation();
     itemToMove = $(event.target)
       .parent()
       .find("label")
-      .text();
+      .find(".contentSpan")
+      .attr('data-item-id');
     $("#moveToggle").toggle();
     itemWrapToDelete = $(event.target).parentsUntil(".list-group");
   });
@@ -151,4 +173,17 @@ $(function () {
       }
     });
   });
+  // toggle popup if click where else
+  $("body").on('click', function(){
+    if($("#moveToggle").css("display") === "block"){
+      $("#moveToggle").toggle();
+    }
+  });
+  $("#moveToggle").on('click', function(event){
+    event.stopPropagation();
+  });
+
+
+
+
 });
