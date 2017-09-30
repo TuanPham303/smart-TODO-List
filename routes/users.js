@@ -78,10 +78,15 @@ module.exports = knex => {
     const email = req.body.email;
     const pw = req.body.password;
 
-    User.authenticate(email, pw).then(user => {
-      req.session.id = user.id;
-      req.session.email = user.email;
-      res.redirect("/");
+
+    User.authenticate(email, pw)
+    .then(user => {
+      if (!user){
+        res.redirect("/")
+      } else {
+        req.session.id = user.email;
+        res.redirect("/");
+      }
     });
   });
 
@@ -89,27 +94,28 @@ module.exports = knex => {
   router.post("/profile", (req, res) => {
     const user = req.session.id;
     const pw = req.body.newpassword;
+    let hashedPassword = bcrypt.hashSync(pw, 10);
 
     knex("users")
-      .where("email", user)
-      .update({
-        password: pw
-      })
-      .then(count => {
-        res.redirect("/");
-      });
+    
+    .where("email", user)
+    .update({
+      password: hashedPassword
+    })
+    .then((count) => {
+      res.redirect("/");
+    });
   });
 
   ///////////////////////// REGISTER //////////////////////
   router.post("/register", (req, res) => {
     const email = req.body.newEmail;
-    // let hashedPassword;
-    // hashedPassword = bcrypt.hashSync(req.body.newPassword, 10);
     const pw = req.body.newPassword;
-
-    knex("users")
+    let hashedPassword = bcrypt.hashSync(pw, 10);
+  
+      knex("users")
       .returning('id')
-      .insert({ email: email, password: pw })
+      .insert({ email: email, password: hashedPassword })
       .then((user) => {
         req.session.email = req.body.newEmail;
         req.session.id = user.toString();
@@ -118,14 +124,12 @@ module.exports = knex => {
     // );
   });
 
-  ////////////LOG OUT///////////////
-  router.post("/logout", (request, response) => {
-    console.log("logout goes here");
-    request.session.id = null;
-    request.session = null;
-    console.log("session cookie cleared");
-    response.redirect("/");
-  });
+////////////LOG OUT///////////////
+router.post('/logout', (request, response) => {
+  request.session.id = null;
+  request.session = null;
+  response.redirect('/');
+});
 
   ///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
