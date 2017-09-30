@@ -1,3 +1,4 @@
+
 $(() => {
   function renderItems(items) {
     $("#read-items").empty();
@@ -26,16 +27,53 @@ $(() => {
       spanWrap.appendTo(labelWrap);
       liWrap.appendTo($(`#${item.category}-items`));
     }
-  }
 
-  ////////////////Get request to database and render items////////////////
+////////////////Get request to database and render items////////////////
+function getAllItems(){
   $.ajax({
     method: "GET",
     url: "/api/items",
-    success: function(data) {
+    success: function(data){
       renderItems(data);
     }
   });
+}
+getAllItems();
+
+///////////////////////////SUBMIT NEW ITEM //////////////////////
+
+$('#itemSubmit').on('click', function() {
+  if ($('#itemInput').val() !== '') {
+    $.post('/api/items/add', {input: $('#itemInput').val()}, function(response){
+      const categories = JSON.parse(response);
+      if (Array.isArray(categories)) {
+          $('#multiMatch').css('display', 'inline');
+          if (!categories[0]) {
+            $(".selectCategory").css('display', 'inline');
+          } else {
+            categories.forEach(function(category){
+              $(`#${category}Button`).css('display', 'inline');
+            });
+          }
+      } else {
+        $('#itemInput').val('');
+        getAllItems();
+      }
+    });
+  }
+
+
+  ////////////////Get request to database and render items////////////////
+
+$(".selectCategory").on('click', function(event){
+  $('.selectCategory').css('display', 'none');
+  $('#multiMatch').css('display', 'none');
+  $.post('/api/items/add/direct', {input: $('#itemInput').val(), category: event.target.value}, function(){
+    $('#itemInput').val('');
+    getAllItems();
+  });
+});
+
 
   ////////////////////////////DELETE item//////////////////////////////
   function deleteItem(event) {

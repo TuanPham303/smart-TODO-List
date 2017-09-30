@@ -1,0 +1,11 @@
+<% if (userId) { %>
+
+  <div class="d-flex justify-content-center">
+    <form action="api/profile" method="POST" class="input-group">
+      <span class="input-group-addon">New Password</span>
+      <input type="password" name="newpassword">
+      <button class="btn btn-outline-primary" type="submit">Update</button>
+    </form>
+    </div>
+
+<% } %>
