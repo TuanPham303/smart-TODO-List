@@ -44,10 +44,10 @@ module.exports = knex => {
 
   // UPDATE ITEM STATUS
   router.post("/items/update", (req, res) => {
-    let status = (req.body.status).toString();
     knex("items")
       .where("content", req.body.content)
-      .update("status", status);
+      .update("status", req.body.status)
+      .then();
   });
 
 

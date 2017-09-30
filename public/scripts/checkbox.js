@@ -3,12 +3,12 @@ $(() => {
     // const item = $(t.target).siblings(".custom-control-description");
     // const content = $(item).text();
     const content = $(t.target).parent().text();
-    let status = !this.checked;
+    let checked = !this.checked;
+    let status = checked.toString();
 
     // $(item).toggleClass("strike");
 
-    console.log(status);
-    console.log(content);
+
     $.ajax({
       url: "api/items/update",
       method: "POST",
