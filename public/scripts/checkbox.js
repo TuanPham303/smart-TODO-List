@@ -3,14 +3,7 @@ $(() => {
     let item = $(t.target)
       .parent()
       .text();
-    let status;
-    if (this.checked) {
-      status = "false";
-      console.log(status);
-    } else {
-      status = "true";
-      console.log(status);
-    }
+    let status = !this.checked;
     console.log(status);
     $.ajax({
       url: "api/items/update",
