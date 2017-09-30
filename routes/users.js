@@ -57,9 +57,14 @@ module.exports = knex => {
     const email = req.body.email;
     const pw = req.body.password;
 
-    User.authenticate(email, pw).then(user => {
-      req.session.id = user.email;
-      res.redirect("/");
+    User.authenticate(email, pw)
+    .then(user => {
+      if (!user){
+        res.redirect("/")
+      } else {
+        req.session.id = user.email;
+        res.redirect("/");
+      }
     });
   });
 
