@@ -156,6 +156,9 @@ $(function () {
       $("#moveToggle").toggle();
     }
   });
+  $("#moveToggle").on('click', function(event){
+    event.stopPropagation();
+  });
 
 
 
