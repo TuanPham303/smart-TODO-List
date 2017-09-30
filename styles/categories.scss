@@ -3,3 +3,11 @@
 .strike {
   text-decoration: line-through;
 }
+
+.icon-wrap {
+  visibility: hidden;
+}
+
+.list-group-item:hover .icon-wrap {
+  visibility: visible;
+}
