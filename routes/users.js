@@ -40,14 +40,16 @@ module.exports = knex => {
           .then(res.send(JSON.stringify("success")));
       }
     });
-
-    // UPDATE ITEM STATUS
-    router.post("/items/update", (req, res) => {
-      knex("items")
-        .where("content", req.body.content)
-        .update("status", req.body.status);
-    });
   });
+
+  // UPDATE ITEM STATUS
+  router.post("/items/update", (req, res) => {
+    let status = (req.body.status).toString();
+    knex("items")
+      .where("content", req.body.content)
+      .update("status", status);
+  });
+
 
   router.post("/items/add/direct", (req, res) => {
     const item = req.body.input;
@@ -124,7 +126,7 @@ module.exports = knex => {
     knex("items")
       .where("content", itemToDelete)
       .del()
-      .then(function(count) {
+      .then(function (count) {
         res.send({ result: "true" });
       });
     // res.redirect('/');
@@ -137,7 +139,7 @@ module.exports = knex => {
     knex("items")
       .where("content", itemToMove)
       .update("category", moveToCategory)
-      .then(function() {
+      .then(function () {
         res.send({ data: "true" });
       });
   });
