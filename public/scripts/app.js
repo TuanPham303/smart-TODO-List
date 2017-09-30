@@ -1,32 +1,24 @@
-$(() => {
+$(function () {
+
   function renderItems(items) {
     $("#read-items").empty();
     $("#watch-items").empty();
     $("#buy-items").empty();
     $("#eat-items").empty();
-    for (item of items) {
-      console.log(item);
+    for (const item of items) {
       const liWrap = $("<li>").addClass("list-group-item");
-      const labelWrap = $("<label>").addClass(
-        "custom-control custom-checkbox readItem"
-      );
-      const inputWrap = $("<input type='checkbox'>").addClass(
-        "custom-control-input"
-      );
+      const labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
+      const inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");
+      const spanWrap = $("<span>").addClass("custom-control-indicator");
+      const contentSpan = $('<span>').addClass('contentSpan custom-control-description').text(item.content);
+      const deleteButton = $('<i>').addClass('fa fa-trash');
+      const moveButton = $('<i>').addClass('fa fa-arrows-alt');
       if (item.status === false) {
         inputWrap.prop("checked", true);
       }
-
-      const spanWrap = $("<span>").addClass("custom-control-indicator");
-      // const contentWrap = $("<span>").addClass("custom-control-description");
-
-      labelWrap.text(item.content).appendTo(liWrap);
-      liWrap.append($('<i class="fa fa-trash" aria-hidden="true"></i>'));
-      liWrap.append($('<i class="fa fa-arrows-alt" aria-hidden="true"></i>'));
-      inputWrap.appendTo(labelWrap);
-      spanWrap.appendTo(labelWrap);
-      // contentWrap.appendTo(labelWrap);
-      liWrap.appendTo($(`#${item.category}-items`));
+      liWrap.append(labelWrap).append(deleteButton).append(moveButton);
+      labelWrap.append(contentSpan).append(inputWrap).append(spanWrap);
+      $(`#${item.category}-items`).append(liWrap);
     }
   }
 
