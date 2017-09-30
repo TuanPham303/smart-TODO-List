@@ -4,6 +4,9 @@ $(() => {
       .parent()
       .text();
     let status = !this.checked;
+
+    // $(item).toggleClass("strike");
+
     console.log(status);
     $.ajax({
       url: "api/items/update",
