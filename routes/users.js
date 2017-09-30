@@ -10,16 +10,19 @@ const chooseCategories = require("../getCategory");
 module.exports = knex => {
   const User = require("../lib/user")(knex);
 
+/////////////////// RENDER ITEMS //////////////////////
   router.get("/items", (req, res) => {
     knex
-      .select("*")
-      .from("items")
+      .from('items')
+      .innerJoin('users', 'items.user_id', 'users.id')
+      .where('user_id', req.session.id)
       .then(results => {
         res.json(results);
+        console.log(results);
       });
   });
 
-  // ADD ITEMS
+/////////////////////// ADD ITEMS ////////////////////////
   router.post("/items/add", (req, res) => {
     const item = req.body.input;
     chooseCategories(item).then(result => {
@@ -32,7 +35,7 @@ module.exports = knex => {
         knex
           .insert({
             content: item,
-            user_id: "1",
+            user_id: req.session.id,
             category: result,
             status: true
           })
@@ -55,7 +58,7 @@ module.exports = knex => {
     const item = req.body.input;
     const category = req.body.category;
     knex
-      .insert({ content: item, user_id: "1", category: category, status: true })
+      .insert({ content: item, user_id: req.session.id, category: category, status: true })
       .into("items")
       .then(res.send(JSON.stringify("success")));
   });
@@ -76,7 +79,8 @@ module.exports = knex => {
     const pw = req.body.password;
 
     User.authenticate(email, pw).then(user => {
-      req.session.id = user.email;
+      req.session.id = user.id;
+      req.session.email = user.email;
       res.redirect("/");
     });
   });
