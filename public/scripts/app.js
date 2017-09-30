@@ -1,4 +1,3 @@
-
 $(() => {
   function renderItems(items) {
     $("#read-items").empty();
@@ -19,61 +18,69 @@ $(() => {
       }
 
       const spanWrap = $("<span>").addClass("custom-control-indicator");
+      // const contentWrap = $("<span>").addClass("custom-control-description");
 
       labelWrap.text(item.content).appendTo(liWrap);
       liWrap.append($('<i class="fa fa-trash" aria-hidden="true"></i>'));
       liWrap.append($('<i class="fa fa-arrows-alt" aria-hidden="true"></i>'));
       inputWrap.appendTo(labelWrap);
       spanWrap.appendTo(labelWrap);
+      // contentWrap.appendTo(labelWrap);
       liWrap.appendTo($(`#${item.category}-items`));
     }
+  }
 
-////////////////Get request to database and render items////////////////
-function getAllItems(){
-  $.ajax({
-    method: "GET",
-    url: "/api/items",
-    success: function(data){
-      renderItems(data);
-    }
-  });
-}
-getAllItems();
-
-///////////////////////////SUBMIT NEW ITEM //////////////////////
-
-$('#itemSubmit').on('click', function() {
-  if ($('#itemInput').val() !== '') {
-    $.post('/api/items/add', {input: $('#itemInput').val()}, function(response){
-      const categories = JSON.parse(response);
-      if (Array.isArray(categories)) {
-          $('#multiMatch').css('display', 'inline');
-          if (!categories[0]) {
-            $(".selectCategory").css('display', 'inline');
-          } else {
-            categories.forEach(function(category){
-              $(`#${category}Button`).css('display', 'inline');
-            });
-          }
-      } else {
-        $('#itemInput').val('');
-        getAllItems();
+  ////////////////Get request to database and render items////////////////
+  function getAllItems() {
+    $.ajax({
+      method: "GET",
+      url: "/api/items",
+      success: function(data) {
+        renderItems(data);
       }
     });
   }
+  getAllItems();
 
+  ///////////////////////////SUBMIT NEW ITEM //////////////////////
+
+  $("#itemSubmit").on("click", function() {
+    if ($("#itemInput").val() !== "") {
+      $.post("/api/items/add", { input: $("#itemInput").val() }, function(
+        response
+      ) {
+        const categories = JSON.parse(response);
+        if (Array.isArray(categories)) {
+          $("#multiMatch").css("display", "inline");
+          if (!categories[0]) {
+            $(".selectCategory").css("display", "inline");
+          } else {
+            categories.forEach(function(category) {
+              $(`#${category}Button`).css("display", "inline");
+            });
+          }
+        } else {
+          $("#itemInput").val("");
+          getAllItems();
+        }
+      });
+    }
+  });
 
   ////////////////Get request to database and render items////////////////
 
-$(".selectCategory").on('click', function(event){
-  $('.selectCategory').css('display', 'none');
-  $('#multiMatch').css('display', 'none');
-  $.post('/api/items/add/direct', {input: $('#itemInput').val(), category: event.target.value}, function(){
-    $('#itemInput').val('');
-    getAllItems();
+  $(".selectCategory").on("click", function(event) {
+    $(".selectCategory").css("display", "none");
+    $("#multiMatch").css("display", "none");
+    $.post(
+      "/api/items/add/direct",
+      { input: $("#itemInput").val(), category: event.target.value },
+      function() {
+        $("#itemInput").val("");
+        getAllItems();
+      }
+    );
   });
-});
-
 
   ////////////////////////////DELETE item//////////////////////////////
   function deleteItem(event) {
