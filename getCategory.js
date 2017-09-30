@@ -35,12 +35,12 @@ function chooseCategoriesAPI(searchTerm) {
     let id = setTimeout(() => {
       clearTimeout(id);
       resolve(null);
-    }, 1500);
+    }, 2000);
   });
 
   const searchMaps = googleMapsClient.places({
     query: searchTerm,
-    radius: 25000,
+    radius: 30000,
     location: [49.282039, -123.108090],
     type: 'restaurant'
   })
@@ -64,18 +64,17 @@ function chooseCategoriesAPI(searchTerm) {
   function processGoogleResults(googleResults) {
     return new Promise((resolve,reject) => {
       if (!googleResults) {
+        console.log('No response from Google Places API');
         return resolve(0);
       }
       let isRestaurant = 0;
       googleResults.forEach((result) => {
         const similarity = stringSimilarity.compareTwoStrings(searchTerm, result.name);
-        if (similarity > 0.7) {
-          isRestaurant = 1;
-          if (similarity > 0.9) {
-            isRestaurant = 2;
-          }
+        if (similarity > isRestaurant) {
+          isRestaurant = similarity;
         }
       });
+      console.log(`is restaraunt: ${isRestaurant * 100} % - need 60% for maybe, 90% for sure`);
       resolve(isRestaurant);
     });
   }
@@ -83,6 +82,7 @@ function chooseCategoriesAPI(searchTerm) {
   const processAmazonResults = (amazonResults) => {
     return new Promise((resolve,reject) => {
       if (!amazonResults) {
+        console.log('No response from Amazon API');
         return resolve([]);
       }
       const returnArray = [];
@@ -101,12 +101,15 @@ function chooseCategoriesAPI(searchTerm) {
         }
       });
       //adjust values to fine tune accuracy/simplicity of results
+      console.log(`is movie: ${countMovie} - need 1`);
       if (countMovie > 0) {
         returnArray.push('watch');
       }
+      console.log(`is book:  ${countBook} - need 2`);
       if (countBook > 1 ) {
         returnArray.push('read');
       }
+      console.log(`is buy:   ${countOther} - need 5`);
       if (countOther > 4) {
         returnArray.push('buy');
       }
@@ -118,10 +121,10 @@ function chooseCategoriesAPI(searchTerm) {
     const isResturant = values[1];
     const amazonCategories = values[0];
     return new Promise((resolve, reject) => {
-      if (isResturant === 2) {
+      if (isResturant > 0.6) {
         resolve(['eat']);
       }
-      if (isResturant === 1) {
+      if (isResturant > 0.9) {
         amazonCategories.push('eat');
       }
       resolve(amazonCategories);
