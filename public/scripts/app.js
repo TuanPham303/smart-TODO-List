@@ -7,17 +7,21 @@ $(function () {
     $("#eat-items").empty();
     for (const item of items) {
       const liWrap = $("<li>").addClass("list-group-item");
+      const divWrap = $("<div>").addClass("d-flex justify-content-start flex-row");
       const labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
       const inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");
       const spanWrap = $("<span>").addClass("custom-control-indicator");
-      const contentSpan = $('<span>').addClass('contentSpan custom-control-description').text(item.content);
-      const deleteButton = $('<i>').addClass('fa fa-trash');
+      const contentSpan = $('<span>').addClass("contentSpan custom-control-description").text(item.content);
+      const iconWrap = $("<div>").addClass("d-flex ml-auto icon-wrap");
       const moveButton = $('<i>').addClass('fa fa-arrows-alt');
+      const deleteButton = $('<i>').addClass('fa fa-trash-o');
       if (item.status === false) {
         inputWrap.prop("checked", true);
         contentSpan.addClass("strike");
       }
-      liWrap.append(labelWrap).append(deleteButton).append(moveButton);
+      liWrap.append(divWrap);
+      divWrap.append(labelWrap).append(iconWrap);
+      iconWrap.append(moveButton).append(deleteButton);
       labelWrap.append(contentSpan).append(inputWrap).append(spanWrap);
       $(`#${item.category}-items`).append(liWrap);
     }
@@ -40,7 +44,7 @@ $(function () {
   $("#itemSubmit").on("click", function () {
     if ($("#itemInput").val() !== "") {
       $("#loadingSpinner").css("display", "inline");
-      $.post("/api/items/add", { input: $("#itemInput").val() }, function(
+      $.post("/api/items/add", { input: $("#itemInput").val() }, function (
         response
       ) {
         const categories = JSON.parse(response);
@@ -109,7 +113,7 @@ $(function () {
     });
   }
 
-  $(".categories").on("click", ".fa-trash", function (event) {
+  $(".categories").on("click", ".fa-trash-o", function (event) {
     deleteItem(event);
   });
 

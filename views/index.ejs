@@ -7,14 +7,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+
     <!-- layout style sheet -->
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
     <!-- stylesheet for item list container -->
     <link rel="stylesheet" href="/styles/categories.css" type="text/css" />
-
-    <!-- google font -->
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
 
     <!-- font awesome -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -41,7 +41,7 @@
     <!-- page header -->
     <header class="container">
       <div class="d-flex justify-content-start">
-        <h1 class="p-2">Smart TODO List</h1>
+        <h1 class="p-2"><b>Smart TODO List</b></h1>
       </div>
         <% include ./partials/_navbar %>
       <div class="container collapse" id="loginbar">
@@ -65,6 +65,7 @@
       </span>
     </div>
     <% include ./partials/_prompt %>
+
     <!-- main container with categories and lists -->
     <div class="container">
       <div class="card-deck categories">
@@ -74,13 +75,6 @@
           <h5 class="card-header" id="read-header">To Read</h5>
           <div class="card-block" id="read-block">
             <ul class="list-group list-group-flush" id="read-items">
-              <li class="list-group-item">
-                <label class="custom-control custom-checkbox readItem">
-                  <input type="checkbox" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">Thing to Read</span>
-                </label>
-              </li>
             </ul>
           </div>
         </div>
