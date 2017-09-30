@@ -32,7 +32,7 @@ module.exports = knex => {
         knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
           .then(res.send(JSON.stringify('success')));
       }
-
+    });
   // UPDATE ITEM STATUS
   router.post("/items/update", (req, res) => {
     knex("items")
