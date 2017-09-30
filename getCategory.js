@@ -101,15 +101,15 @@ function chooseCategoriesAPI(searchTerm) {
         }
       });
       //adjust values to fine tune accuracy/simplicity of results
-      console.log(`is movie: ${countMovie} - need 1`);
+      console.log(`is movie: ${countMovie > 0}, result ${countMovie} - need 1`);
       if (countMovie > 0) {
         returnArray.push('watch');
       }
-      console.log(`is book:  ${countBook} - need 2`);
-      if (countBook > 1 ) {
+      console.log(`is book: ${countBook > 1}, result ${countBook} - need 2`);
+      if (countBook > 1) {
         returnArray.push('read');
       }
-      console.log(`is buy:   ${countOther} - need 5`);
+      console.log(`is buy: ${countOther > 4}, result ${countOther} - need 5`);
       if (countOther > 4) {
         returnArray.push('buy');
       }
