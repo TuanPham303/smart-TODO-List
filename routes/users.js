@@ -21,23 +21,26 @@ module.exports = knex => {
 
   // ADD ITEMS
   router.post("/items/add", (req, res) => {
-    const item = req.body.item;
+    const item = req.body.input;
     chooseCategories(item).then(result => {
-      console.log(result);
-
-      if (Array.isArray(result)) {
-        if(result.length === 1){
+      if (Array.isArray(result) && result.length !== 1) {
+        res.send(JSON.stringify(result));
+      } else {
+        if (Array.isArray(result)) {
           result = result[0];
-        } else {
-          //ask user for input
         }
+        knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
+          .then(res.send(JSON.stringify('success')));
       }
-
-      knex.insert({content: item, user_id: '1', category: result, status: true}).into('items')
-        .then(res.redirect('/'));
     });
   });
 
+  router.post("/items/add/direct", (req, res) => {
+    const item = req.body.input;
+    const category = req.body.category;
+    knex.insert({content: item, user_id: '1', category: category, status: true}).into('items')
+          .then(res.send(JSON.stringify('success')));
+  });
 
   // LOGIN -- need to link to login button in navbar
   router.get("/login", (req, res) => {
@@ -62,15 +65,17 @@ module.exports = knex => {
 
   // UPDATE EMAIL & PASSWORD
   router.post("/profile", (req, res) => {
-    const email = req.body.email;
-    const pw = req.body.password;
+    const user = req.session.id;
+    const pw = req.body.newpassword;
 
-    User.updateUser(email, pw).then((result) => {
-      let id = result[0];
-      req.session.user_id = id;
-      res.redirect("/");
+    knex("users")
+    .where("email", user)
+    .update({
+      password: pw
     })
-    .catch((error) => console.log("Update has failed."));
+    .then((count)=>{
+      res.redirect("/");
+    });
   });
 
 ///////////////////////// REGISTER //////////////////////
