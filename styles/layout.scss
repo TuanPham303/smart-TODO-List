@@ -1,14 +1,7 @@
-@import '../node_modules/bootstrap/scss/bootstrap';
-
 body {
-  font-family: 'Playfair Display', serif;
-}
+  background-color: #EEE;
 
-header {
-  color: $teal;
-}
-
-.container {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  h1 {
+    color: #244751;
+  }
 }
