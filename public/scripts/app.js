@@ -62,6 +62,10 @@ $(function () {
     }
   });
 
+  $(".closePrompt").on("click", function (event) {
+    $("#multiMatch").css("display", "none");
+  });
+
   ////////////////Get request to database and render items////////////////
 
   $(".selectCategory").on("click", function (event) {

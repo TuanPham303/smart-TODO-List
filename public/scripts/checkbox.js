@@ -1,4 +1,4 @@
-$(() => {
+$(function () {
   $(".categories").on("click", ".custom-control-input", function (t) {
     const content = $(t.target).parent().text();
     let checked = !this.checked;
