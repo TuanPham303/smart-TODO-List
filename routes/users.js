@@ -17,8 +17,8 @@ module.exports = knex => {
       .innerJoin('users', 'items.user_id', 'users.id')
       .where('user_id', req.session.id)
       .then(results => {
-        res.json(results);
         console.log(results);
+        res.json(results);
       });
   });
 
@@ -106,10 +106,13 @@ module.exports = knex => {
     // let hashedPassword;
     // hashedPassword = bcrypt.hashSync(req.body.newPassword, 10);
     const pw = req.body.newPassword;
+
     knex("users")
+      .returning('id')
       .insert({ email: email, password: pw })
-      .then(() => {
-        req.session.id = req.body.newEmail;
+      .then((user) => {
+        req.session.email = req.body.newEmail;
+        req.session.id = user.toString();
         res.redirect("/");
       });
     // );
