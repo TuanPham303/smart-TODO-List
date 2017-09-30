@@ -118,6 +118,7 @@ $(function () {
   let itemToMove;
   let itemWrapToDelete;
   $(".categories").on("click", ".fa-arrows-alt", function (event) {
+    event.stopPropagation();
     itemToMove = $(event.target)
       .parent()
       .find("label")
@@ -149,4 +150,14 @@ $(function () {
       }
     });
   });
+  // toggle popup if click where else
+  $("body").on('click', function(){
+    if($("#moveToggle").css("display") === "block"){
+      $("#moveToggle").toggle();
+    }
+  });
+
+
+
+
 });
