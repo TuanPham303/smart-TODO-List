@@ -62,15 +62,17 @@ module.exports = knex => {
 
   // UPDATE EMAIL & PASSWORD
   router.post("/profile", (req, res) => {
-    const email = req.body.email;
-    const pw = req.body.password;
+    const user = req.session.id;
+    const pw = req.body.newpassword;
 
-    User.updateUser(email, pw).then((result) => {
-      let id = result[0];
-      req.session.user_id = id;
-      res.redirect("/");
+    knex("users")
+    .where("email", user)
+    .update({
+      password: pw
     })
-    .catch((error) => console.log("Update has failed."));
+    .then((count)=>{
+      res.redirect("/");
+    });
   });
 
 ///////////////////////// REGISTER //////////////////////
