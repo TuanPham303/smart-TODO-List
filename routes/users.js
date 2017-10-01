@@ -10,7 +10,7 @@ const chooseCategories = require("../getCategory");
 module.exports = knex => {
   const User = require("../lib/user")(knex);
 
-/////////////////// RENDER ITEMS //////////////////////
+  /////////////////// RENDER ITEMS //////////////////////
   router.get("/items", (req, res) => {
     knex
       .select('items.id', 'items.user_id', 'items.category', 'items.content', 'items.status', 'users.email', 'users.password')
@@ -22,7 +22,7 @@ module.exports = knex => {
       });
   });
 
-/////////////////////// ADD ITEMS ////////////////////////
+  /////////////////////// ADD ITEMS ////////////////////////
   router.post("/items/add", (req, res) => {
     const item = req.body.input;
     chooseCategories(item).then(result => {
@@ -48,7 +48,7 @@ module.exports = knex => {
   // UPDATE ITEM STATUS
   router.post("/items/update", (req, res) => {
     knex("items")
-      .where("content", req.body.content)
+      .where("id", req.body.itemId)
       .update("status", req.body.status)
       .then();
   });
@@ -79,17 +79,17 @@ module.exports = knex => {
     const pw = req.body.password;
 
     User.authenticate(email, pw)
-    .then(user => {
-      if (!user){
-        console.log('user not foind');
-        res.redirect("/");
-      } else {
-        console.log(user);
-         req.session.email = user.email;
-         req.session.id = user.id;
-         res.redirect("/");
-       }
-     });
+      .then(user => {
+        if (!user) {
+          console.log('user not foind');
+          res.redirect("/");
+        } else {
+          console.log(user);
+          req.session.email = user.email;
+          req.session.id = user.id;
+          res.redirect("/");
+        }
+      });
   });
 
   // UPDATE EMAIL & PASSWORD
@@ -99,13 +99,13 @@ module.exports = knex => {
     let hashedPassword = bcrypt.hashSync(pw, 10);
 
     knex("users")
-    .where("email", user)
-    .update({
-      password: hashedPassword
-    })
-    .then(count => {
-      res.redirect("/");
-    });
+      .where("email", user)
+      .update({
+        password: hashedPassword
+      })
+      .then(count => {
+        res.redirect("/");
+      });
   });
 
   ///////////////////////// REGISTER //////////////////////
@@ -114,13 +114,13 @@ module.exports = knex => {
     const pw = req.body.newPassword;
     let hashedPassword = bcrypt.hashSync(pw, 10);
 
-      knex("users")
-        .returning('id')
-        .insert({ email: email, password: hashedPassword })
-        .then((user) => {
-          req.session.email = req.body.newEmail;
-          req.session.id = user.toString();
-          res.redirect("/");
+    knex("users")
+      .returning('id')
+      .insert({ email: email, password: hashedPassword })
+      .then((user) => {
+        req.session.email = req.body.newEmail;
+        req.session.id = user.toString();
+        res.redirect("/");
       });
     // );
   });
