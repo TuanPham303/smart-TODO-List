@@ -20,7 +20,8 @@ function chooseCategoriesDB(searchTerm) {
   return knex('keywords').select('word', 'category').then((words) => {
     let category;
     words.forEach(word => {
-      if (searchTerm.includes(word.word)) {
+      const keywordRegExp = new RegExp(`\\b${word.word}\\b`);
+      if (keywordRegExp.test(searchTerm)) {
         category = word.category;
       }
     });
@@ -30,6 +31,8 @@ function chooseCategoriesDB(searchTerm) {
 
 // use amazon and google places APIs to determine type of object
 function chooseCategoriesAPI(searchTerm) {
+
+  console.log('searchTerm: ', searchTerm);
 
   // promise used to create race condition to timeout API requests after 2 seconds
   const timeout = new Promise((resolve, reject) => {
@@ -60,7 +63,7 @@ function chooseCategoriesAPI(searchTerm) {
       return amazonResults;
     })
     .catch((err) => {
-      console.log('Amazon API error: ', err);
+      console.log('Amazon API error: ', err.Error);
       return null;
     });
 
@@ -129,10 +132,10 @@ function chooseCategoriesAPI(searchTerm) {
     const amazonCategories = values[0];
     return new Promise((resolve, reject) => {
       // adjust values to fine tune accuracy/simplicity of results
-      if (isResturant > 0.6) {
+      if (isResturant > 0.9) {
         resolve(['eat']);
       }
-      if (isResturant > 0.9) {
+      if (isResturant > 0.6) {
         amazonCategories.push('eat');
       }
       resolve(amazonCategories);

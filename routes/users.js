@@ -18,7 +18,6 @@ module.exports = knex => {
       .innerJoin('users', 'items.user_id', 'users.id')
       .where('user_id', req.session.id)
       .then(results => {
-        console.log(results);
         res.json(results);
       });
   });
