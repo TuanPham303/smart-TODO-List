@@ -114,6 +114,7 @@ $(function () {
       data: {
         itemToDelete: $(event.target)
           .parent()
+          .parent()
           .find("label")
           .find(".contentSpan")
           .attr('data-item-id')
@@ -149,6 +150,7 @@ $(function () {
   $(".categories").on("click", ".fa-arrows-alt", function (event) {
     event.stopPropagation();
     itemToMove = $(event.target)
+      .parent()
       .parent()
       .find("label")
       .find(".contentSpan")
