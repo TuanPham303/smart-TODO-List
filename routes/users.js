@@ -82,13 +82,13 @@ module.exports = knex => {
     User.authenticate(email, pw)
     .then(user => {
       if (!user){
-        console.log('user not foind');
-        res.redirect("/");
+        res.send(JSON.stringify('Email or password is incorrect'));
+        // res.redirect("/");
       } else {
         console.log(user);
-         req.session.email = user.email;
-         req.session.id = user.id;
-         res.redirect("/");
+          req.session.email = user.email;
+          req.session.id = user.id;
+          res.redirect("/");
        }
      });
   });
@@ -100,13 +100,13 @@ module.exports = knex => {
     let hashedPassword = bcrypt.hashSync(pw, 10);
 
     knex("users")
-    .where("email", user)
-    .update({
-      password: hashedPassword
-    })
-    .then(count => {
-      res.redirect("/");
-    });
+      .where("email", user)
+      .update({
+        password: hashedPassword
+      })
+      .then(count => {
+        res.redirect("/");
+      });
   });
 
   ///////////////////////// REGISTER //////////////////////

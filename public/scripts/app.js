@@ -191,6 +191,16 @@ $(function () {
     event.stopPropagation();
   });
 
+//////////// HANDLE ERR LOGIN ///////////////
+$("#login").on('click', function(event){
+  $.post("/api/login", {
+    email: $(event.target).parent().find($("#email")).val(),
+    password: $(event.target).parent().find($("#password")).val(),
+   },
+   function(response){
+    $("<div style='color: red'>").text(JSON.parse(response)).appendTo($("header"));
+  });
+});
 
 
 

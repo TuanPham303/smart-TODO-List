@@ -52,7 +52,7 @@ app.use("/api", usersRoutes(knex));
 // Home page
 app.get("/", (req, res) => {
   let templateVars = {
-    userId: req.session.email
+    userId: req.session.email,
   };
   res.render("index", templateVars);
 });
