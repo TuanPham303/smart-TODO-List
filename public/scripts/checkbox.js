@@ -1,10 +1,10 @@
 $(function () {
   $(".categories").on("click", ".custom-control-input", function (t) {
-    const content = $(t.target).parent().text();
+    const item = $(t.target).siblings(".custom-control-description");
+    const itemId = $(item).attr('data-item-id');
     let checked = !this.checked;
     let status = checked.toString();
 
-    const item = $(t.target).siblings(".custom-control-description");
     if (!checked) {
       $(item).addClass("strike");
     } else {
@@ -15,7 +15,7 @@ $(function () {
       url: "api/items/update",
       method: "POST",
       data: {
-        content: content,
+        itemId: itemId,
         status: status
       },
       success: function (data) {
