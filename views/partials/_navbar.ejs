@@ -6,7 +6,7 @@
   <% if (userId) { %>
     <form class="form-inline">
       <span class="login-hello">Hello <%= userId %>!</span>
-      <div class="nav-link profile-toggle ml-auto p-2" href="#">Change Password</div>
+      <div class="nav-link profile-toggle ml-auto p-2" style='cursor: pointer'>Change Password</div>
       <!-- <a class="nav-link logout" action="/api/logout" method="POST">Logout</a> -->
 
     </form>
@@ -18,8 +18,8 @@
   <% } else { %>
   <div class="d-flex justify-content-start">
     <form class="form-inline">
-      <div class="nav-link register-toggle ml-auto p-2">Register</div>
-      <a class="nav-link login-toggle ml-auto p-2" href="#">Login</a>
+      <div class="nav-link register-toggle ml-auto p-2" style='cursor: pointer'>Register</div>
+      <div class="nav-link login-toggle ml-auto p-2" style='cursor: pointer'>Login</div>
     </form>
   </div>
   <% } %>

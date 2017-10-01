@@ -15,7 +15,7 @@ const amazonClient = amazon.createClient({
   awsTag: process.env.amazon_tag
 });
 
-
+// check database to see if there are matching keywords
 function chooseCategoriesDB(searchTerm) {
   return knex('keywords').select('word', 'category').then((words) => {
     let category;
@@ -28,9 +28,10 @@ function chooseCategoriesDB(searchTerm) {
   });
 }
 
-
+// use amazon and google places APIs to determine type of object
 function chooseCategoriesAPI(searchTerm) {
 
+  // promise used to create race condition to timeout API requests after 2 seconds
   const timeout = new Promise((resolve, reject) => {
     let id = setTimeout(() => {
       clearTimeout(id);
@@ -38,6 +39,7 @@ function chooseCategoriesAPI(searchTerm) {
     }, 2000);
   });
 
+  // query google places API for results with type 'restaurant' within 30km of downtown vancouver
   const searchMaps = googleMapsClient.places({
     query: searchTerm,
     radius: 30000,
@@ -52,6 +54,7 @@ function chooseCategoriesAPI(searchTerm) {
       console.log('Google Places API error: ', err);
     });
 
+  // query amazon for first 10 results matching keyword
   const searchAmazon = amazonClient.itemSearch({ keywords: searchTerm })
     .then((amazonResults) => {
       return amazonResults;
@@ -61,6 +64,7 @@ function chooseCategoriesAPI(searchTerm) {
       return null;
     });
 
+  // determine if search term is a restaurant
   function processGoogleResults(googleResults) {
     return new Promise((resolve,reject) => {
       if (!googleResults) {
@@ -79,6 +83,7 @@ function chooseCategoriesAPI(searchTerm) {
     });
   }
 
+  // determine if search term is an item to read, watch or buy
   const processAmazonResults = (amazonResults) => {
     return new Promise((resolve,reject) => {
       if (!amazonResults) {
@@ -90,7 +95,8 @@ function chooseCategoriesAPI(searchTerm) {
       let countBook = 0;
       let countOther = 0;
       amazonResults.forEach((searchResult) => {
-
+        // add to category based on if item type is any of the specified item types
+        // can add more item types to compare against to improve accuracy
         const item = searchResult.ItemAttributes[0].ProductGroup[0];
         if (item === 'Movie' || item === 'DVD' || item === 'Video') {
           countMovie += 1;
@@ -100,7 +106,7 @@ function chooseCategoriesAPI(searchTerm) {
           countOther += 1;
         }
       });
-      //adjust values to fine tune accuracy/simplicity of results
+      // adjust values to fine tune accuracy/simplicity of results
       console.log(`is movie: ${countMovie > 0}, result ${countMovie} - need 1`);
       if (countMovie > 0) {
         returnArray.push('watch');
@@ -117,10 +123,12 @@ function chooseCategoriesAPI(searchTerm) {
     });
   };
 
+  // perform final decision making based on computed results from APIs
   const combineResults = (values) => {
     const isResturant = values[1];
     const amazonCategories = values[0];
     return new Promise((resolve, reject) => {
+      // adjust values to fine tune accuracy/simplicity of results
       if (isResturant > 0.6) {
         resolve(['eat']);
       }
@@ -131,6 +139,7 @@ function chooseCategoriesAPI(searchTerm) {
     });
   };
 
+  // race API requests against timeout function to ensure we aren't waiting too long
   const amazon = Promise.race([searchAmazon, timeout])
     .then(amazonResults => {
       return processAmazonResults(amazonResults);
@@ -153,6 +162,7 @@ function chooseCategoriesAPI(searchTerm) {
     });
 }
 
+// only check APIs if result was not found by matching keywords
 function ifDBsuccess(result, searchTerm) {
   if (result) {
     return Promise.resolve(result);
