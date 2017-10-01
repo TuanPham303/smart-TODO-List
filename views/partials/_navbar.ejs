@@ -1,12 +1,12 @@
-<nav class="navbar nav-light bg-light">
+<nav class="navbar nav-light">
 
   <!-- if user IS logged in, show HI USER, UPDATE PROFILE, LOGOUT -->
   <!-- else user is NOT logged in, show LOGIN and REGISTER -->
 
   <% if (userId) { %>
-    <form class="form-inline">
-      <span class="login-hello">Hello <%= userId %>!</span>
-      <div class="nav-link profile-toggle ml-auto p-2" style='cursor: pointer'>Change Password</div>
+    <form class="d-flex flex-row">
+      <span class="login-hello p-2">Hello <%= userId %>!</span>
+      <div class="nav-link profile-toggle p-2" style='cursor: pointer'>Change Password</div>
       <!-- <a class="nav-link logout" action="/api/logout" method="POST">Logout</a> -->
 
     </form>
