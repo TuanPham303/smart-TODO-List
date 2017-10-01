@@ -11,3 +11,37 @@
 .list-group-item:hover .icon-wrap {
   visibility: visible;
 }
+
+
+.custom-control-input {
+  position: absolute;
+  z-index: -1; // Put the input behind the label so it doesn't overlay text
+  opacity: 0;
+
+  &:checked ~ .custom-control-indicator {
+    color: $teal;
+    background-color: $teal;
+    @include box-shadow($custom-control-indicator-checked-box-shadow);
+  }
+
+  &:focus ~ .custom-control-indicator {
+    // the mixin is not used here to make sure there is feedback
+    box-shadow: none;
+  }
+}
+
+.custom-checkbox {
+  .custom-control-indicator {
+    @include border-radius($custom-checkbox-indicator-border-radius);
+  }
+
+  .custom-control-input:checked ~ .custom-control-indicator {
+    background-image: $custom-checkbox-indicator-icon-checked;
+  }
+
+  .custom-control-input:indeterminate ~ .custom-control-indicator {
+    background-color: teal;
+    background-image: $custom-checkbox-indicator-icon-indeterminate;
+    @include box-shadow($custom-checkbox-indicator-indeterminate-box-shadow);
+  }
+}
