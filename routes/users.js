@@ -79,42 +79,49 @@ module.exports = knex => {
     const email = req.body.email;
     const pw = req.body.password;
 
-    User.authenticate(email, pw).then(user => {
-      req.session.id = user.id;
-      req.session.email = user.email;
-      res.redirect("/");
-    });
+    User.authenticate(email, pw)
+    .then(user => {
+      if (!user){
+        console.log('user not foind');
+        res.redirect("/");
+      } else {
+        console.log(user);
+         req.session.email = user.email;
+         req.session.id = user.id;
+         res.redirect("/");
+       }
+     });
   });
 
   // UPDATE EMAIL & PASSWORD
   router.post("/profile", (req, res) => {
     const user = req.session.id;
     const pw = req.body.newpassword;
+    let hashedPassword = bcrypt.hashSync(pw, 10);
 
     knex("users")
-      .where("email", user)
-      .update({
-        password: pw
-      })
-      .then(count => {
-        res.redirect("/");
-      });
+    .where("email", user)
+    .update({
+      password: hashedPassword
+    })
+    .then(count => {
+      res.redirect("/");
+    });
   });
 
   ///////////////////////// REGISTER //////////////////////
   router.post("/register", (req, res) => {
     const email = req.body.newEmail;
-    // let hashedPassword;
-    // hashedPassword = bcrypt.hashSync(req.body.newPassword, 10);
     const pw = req.body.newPassword;
+    let hashedPassword = bcrypt.hashSync(pw, 10);
 
-    knex("users")
-      .returning('id')
-      .insert({ email: email, password: pw })
-      .then((user) => {
-        req.session.email = req.body.newEmail;
-        req.session.id = user.toString();
-        res.redirect("/");
+      knex("users")
+        .returning('id')
+        .insert({ email: email, password: hashedPassword })
+        .then((user) => {
+          req.session.email = req.body.newEmail;
+          req.session.id = user.toString();
+          res.redirect("/");
       });
     // );
   });
