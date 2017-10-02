@@ -6,9 +6,9 @@ When you are recommended something it's not always easy to jot it down for later
 
 The solution? A smart, auto-categorizing todo list app. The user simply has to add the name of the thing, and it gets put into the correct list.
 
-## Screenshots
+## Screenshot
 
-Coming soon!
+![''](https://raw.githubusercontent.com/TuanPham303/smart-TODO-List/development/docs/main.jpeg)
 
 ## Getting Started
 
