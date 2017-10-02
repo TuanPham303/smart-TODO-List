@@ -63,7 +63,7 @@ $(function () {
             $(".selectCategory").css("display", "inline");
           } else {
             categories.forEach(function (category) {
-              $(`#${category}Button`).css("display", "inline");
+              $('#' + category + 'Button').css("display", "inline");
             });
           }
         } else {
