@@ -10,9 +10,27 @@ body {
 
   height: 100vh;
 
+  header {
+    h1 {
+      font-family: 'Reem Kufi', sans-serif;
+      margin-bottom: 0px;
+    }
+  }
+
   .container {
     padding-top: 15px;
     padding-bottom: 15px;
+  }
+
+  .navbar {
+    background: $main;
+    border-radius: 4px;
+    color: $white;
+    margin-top: 15px;
+
+    .login-hello {
+      margin-right: 10px;
+    }
   }
 
   .add-item {
@@ -27,22 +45,6 @@ body {
     color: $white;
     border: none;
     margin-left: 10px;
-  }
-
-  .navbar {
-    background: $main;
-    border-radius: 4px;
-    color: $white;
-    margin-top: 15px;
-    header {
-      h1 {
-        font-family: 'Reem Kufi', sans-serif;
-        margin-bottom: 0px;
-      }
-    }
-    .login-hello {
-      margin-right: 10px;
-    }
   }
 
   .form-control:focus {
