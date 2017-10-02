@@ -193,6 +193,8 @@ $(function () {
 
 
 //////////// HANDLE ERR LOGIN ///////////////
+$("<div id='errorWrap' style='color: red; width: 100%; text-align: center'>").appendTo($("header"));
+
 $("#login").on('click', function(event){
   $.post("/api/login", {
     email: $(event.target).parent().find($("#email")).val(),
@@ -200,7 +202,7 @@ $("#login").on('click', function(event){
   },
   function(response){
     if (JSON.parse(response) === 'invalid') {
-      $("<div style='color: red; width: 100%; text-align: center'>").text('Email or password is incorrect').appendTo($("header"));
+      $("#errorWrap").text('Email or password is incorrect');
     } else {
       window.location.replace('/');
     }
@@ -215,7 +217,7 @@ $("#register").on('click', function(event){
    },
    function(response){
     if (JSON.parse(response) === 'invalid') {
-      $("<div style='color: red; width: 100%; text-align: center'>").text('Email or password is incorrect').appendTo($("header"));
+      $("#errorWrap").text('Email or password is incorrect');
     } else {
       window.location.replace('/');
     }
