@@ -199,7 +199,7 @@ $("#login").on('click', function(event){
    },
    function(response){
     if (JSON.parse(response) === 'invalid') {
-      $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
+      $("<div style='color: red; width: 100%; text-align: center'>").text('Email or password is incorrect').appendTo($("header"));
     } else {
       window.location.replace('/');
     }
@@ -214,11 +214,13 @@ $("#register").on('click', function(event){
    },
    function(response){
     if (JSON.parse(response) === 'invalid') {
-      $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
+      $("<div style='color: red; width: 100%; text-align: center'>").text('Email or password is incorrect').appendTo($("header"));
     } else {
       window.location.replace('/');
     }
   });
 });
+
+
 
 });
