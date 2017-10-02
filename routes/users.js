@@ -12,6 +12,7 @@ module.exports = knex => {
 
   /////////////////// RENDER ITEMS //////////////////////
   router.get("/items", (req, res) => {
+    console.log(req.session.id);
     knex
       .select('items.id', 'items.user_id', 'items.category', 'items.content', 'items.status', 'users.email', 'users.password')
       .from('items')
@@ -82,14 +83,13 @@ module.exports = knex => {
 
     .then(user => {
       if (!user){
-        res.send(JSON.stringify('Email or password is incorrect'));
+        res.send(JSON.stringify('invalid'));
       } else {
-        console.log(user);
-          req.session.email = user.email;
-          req.session.id = user.id;
-          res.redirect("/");
-       }
-     });
+        req.session.email = user.email;
+        req.session.id = user.id;
+        res.send(JSON.stringify('valid'));
+      }
+    });
   });
 
   // UPDATE EMAIL & PASSWORD

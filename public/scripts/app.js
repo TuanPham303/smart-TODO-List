@@ -198,7 +198,12 @@ $("#login").on('click', function(event){
     password: $(event.target).parent().find($("#password")).val(),
    },
    function(response){
-    $("<div style='color: red'>").text(JSON.parse(response)).appendTo($("header"));
+    console.log('response: ', response);
+    if (JSON.parse(response) === 'invalid') {
+      $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
+    } else {
+      window.location.replace('/');
+    }
   });
 });
 
