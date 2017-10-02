@@ -2,14 +2,12 @@
 <% if (!userId) { %>
 
   <div class="d-flex justify-content-center">
-    <form action="api/register" method="POST" class="input-group">
-      <span class="input-group-addon">Email</span>
-      <input type="email" name="newEmail" placeholder="youremail@email.com">
-      <span class="input-group-addon">Password</span>
-      <input type="password" name="newPassword" placeholder="password">
-      <button class="btn btn-dark">Register</button>
-    </form>
-    </div>
+    <span class="input-group-addon">Email</span>
+    <input type="email" id="newEmail" name="newEmail" placeholder="youremail@email.com">
+    <span class="input-group-addon">Password</span>
+    <input type="password" id="newPassword" name="newPassword" placeholder="password">
+    <button class="btn btn-dark" id="register">Register</button>
+  </div>
 
 <% } %>
 

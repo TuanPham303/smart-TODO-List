@@ -12,6 +12,7 @@ module.exports = knex => {
 
   /////////////////// RENDER ITEMS //////////////////////
   router.get("/items", (req, res) => {
+    // console.log(req.session.id);
     knex
       .select('items.id', 'items.user_id', 'items.category', 'items.content', 'items.status', 'users.email')
       .from('items')
@@ -81,15 +82,11 @@ module.exports = knex => {
     User.authenticate(email, pw)
     .then(user => {
       if (!user){
-        // res.send(JSON.stringify('email or password is incorrect'));
-        var string = encodeURIComponent('something that would break');
-        res.render('index', {err: 'something that would break'});
+        res.send(JSON.stringify('invalid'));
       } else {
-        console.log(user.id);
         req.session.email = user.email;
         req.session.id = user.id;
-        console.log('email cookie ',req.session.email);
-        res.redirect("/");
+        res.send(JSON.stringify('valid'));
       }
     });
   });
@@ -112,21 +109,23 @@ module.exports = knex => {
 
   ///////////////////////// REGISTER //////////////////////
   router.post("/register", (req, res) => {
-    const email = req.body.newEmail;
-    const pw = req.body.newPassword;
-    let hashedPassword = bcrypt.hashSync(pw, 10);
-
+    const email = req.body.email;
+    const pw = req.body.password;
     User.findEmail(email)
     .then(user => {
       if(!user){
+
+        let hashedPassword = bcrypt.hashSync(pw, 10);
         knex("users")
         .returning('id')
         .insert({ email: email, password: hashedPassword })
         .then((user) => {
-          req.session.email = req.body.newEmail;
+          req.session.email = req.body.email;
           req.session.id = user.toString();
-          res.redirect("/");
+          res.send(JSON.stringify('valid'));
         });
+      } else {
+        res.send(JSON.stringify('invalid'));
       }
     });
 
@@ -144,7 +143,6 @@ module.exports = knex => {
   ///////////////////////// DELETE ITEMS //////////////////////////
   router.post("/items/delete", (req, res) => {
     let itemToDelete = req.body.itemToDelete;
-    console.log(itemToDelete);
     knex("items")
       .where("id", itemToDelete)
       .del()

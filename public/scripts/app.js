@@ -192,24 +192,35 @@ $(function () {
   });
 
 //////////// HANDLE ERR LOGIN ///////////////
-/*$("#login").on('click', function(event){
+$("#login").on('click', function(event){
   $.post("/api/login", {
     email: $(event.target).parent().find($("#email")).val(),
     password: $(event.target).parent().find($("#password")).val(),
-  },
-  function(response){
-    $("<div style='color: red'>").text(JSON.parse(response)).appendTo($("header"));
+   },
+   function(response){
+    console.log('response: ', response);
+    if (JSON.parse(response) === 'invalid') {
+      $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
+    } else {
+      window.location.replace('/');
+    }
   });
-  $.get("api/login", function(data){
-    getAllItems(data);
+});
+
+////////////// HANDLE REGISTER ERROR //////////////
+$("#register").on('click', function(event){
+  $.post("/api/register", {
+    email: $(event.target).parent().find($("#newEmail")).val(),
+    password: $(event.target).parent().find($("#newPassword")).val(),
+   },
+   function(response){
+    console.log('response: ', response);
+    if (JSON.parse(response) === 'invalid') {
+      $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
+    } else {
+      window.location.replace('/');
+    }
   });
-});*/
-$.ajax({
-  method: 'POST',
-  url: "api/login",
-  success: function(data){
-    console.log(data);
-  }
 });
 
 });
