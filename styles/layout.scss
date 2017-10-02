@@ -1,79 +1,56 @@
 @import '../node_modules/bootstrap/scss/bootstrap';
 
-* {
-  font-family: 'Work Sans', sans-serif;
-}
+$main: rgba(51, 73, 96, 0.83);
 
-header {
-  h1 {
-    margin-bottom: 0px;
-  }
-  // color: rgba(113, 197, 166, 0.83);
+* {
+  font-family: 'Quicksand', sans-serif;
 }
 
 body {
+
   height: 100vh;
-
-  .navbar {
-    background: rgba(51, 73, 96, 0.83);
-    color: $white;
-    border-radius: 4px;
-  }
-
-  .login-hello {
-    margin-right: 10px;
-  }
-
-
-
-  .btn-outline-secondary {
-    color: white;
-    border: none;
-  }
 
   .container {
     padding-top: 15px;
     padding-bottom: 15px;
   }
 
-  .form-control:focus {
-    // border-color: rgba(61, 144, 212, 0.83);
-    border-color: $gray-900;
+  .add-item {
+    height: 100px;
+
+    .input-group {
+      height: 60px;
+    }
   }
 
-  #moveToggle {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 100px;
-    width: 450px;
-    background-color: rgba(0, 0, 0, .8);
-    z-index: 999;
-    text-align: center;
-    color: #fff;
-    border-radius: 5px;
-    display: none;
-  }
-  .itemWrap {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-  }
-  .moveItem {
-    background-color: #23c896;
-    border-radius: 5px;
+  .btn-outline-secondary {
+    color: $white;
     border: none;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    padding: 0 10px;
-    margin: 0 5px;
-    display: inline-block;
+    margin-left: 10px;
   }
-  .fa {
-    float: right;
-    margin: 5px 5px 0;
+
+  .navbar {
+    background: $main;
+    border-radius: 4px;
+    color: $white;
+    header {
+      h1 {
+        font-family: 'Reem Kufi', sans-serif;
+        margin-bottom: 0px;
+      }
+    }
+    .login-hello {
+      margin-right: 10px;
+    }
+  }
+
+  .form-control:focus {
+    border: 1.3px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .add-btn {
+    background-color: $main;
+    border-color: $main;
+    color: $white;
   }
 }

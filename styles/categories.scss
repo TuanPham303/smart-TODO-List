@@ -1,11 +1,9 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
+
 $read: rgba(242, 123, 114, 0.73);
 $watch: rgba(51, 172, 150, 0.75);
 $buy: rgba(127, 76, 118, 0.72);
 $eat: rgba(61, 161, 201, 0.77);
-
-
-
 
 .strike {
   text-decoration: line-through;
@@ -27,7 +25,12 @@ $eat: rgba(61, 161, 201, 0.77);
     visibility: hidden;
   }
   .list-group-item:hover .icon-wrap {
+    color: $gray-700;
     visibility: visible;
+    .fa {
+      float: right;
+      margin: 5px 5px 0;
+    }
   }
 }
 
@@ -40,9 +43,6 @@ $eat: rgba(61, 161, 201, 0.77);
     &:checked ~ .custom-control-indicator {
       background-color: $read;
     }
-  }
-  .fa {
-    color: inherit;
   }
 }
 
@@ -79,6 +79,59 @@ $eat: rgba(61, 161, 201, 0.77);
     &:checked ~ .custom-control-indicator {
       background-color: $eat;
     }
+  }
+}
+
+.selectCategory {
+  background-color: rgb(134, 142, 150);
+}
+
+.move-read:hover {
+  background-color: $read;
+}
+
+.move-watch:hover {
+  background-color: $watch;
+}
+
+.move-buy:hover {
+  background-color: $buy;
+}
+
+.move-eat:hover {
+  background-color: $eat;
+}
+
+#moveToggle {
+  background-color: rgba(128, 128, 128, 0.76);
+  border-radius: 5px;
+  color: $white;
+  display: none;
+  height: 100px;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  z-index: 999;
+}
+
+.itemWrap {
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 100%;
+  .moveItem {
+    border-radius: 5px;
+    border: none;
+    color: $white;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 5px;
+    padding: 0 10px;
+    text-align: center;
   }
 }
 
