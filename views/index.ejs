@@ -40,9 +40,6 @@
 
     <!-- page header -->
     <header class="container">
-      <div class="d-flex justify-content-start">
-        <h1 class="p-2"><b>Smart TODO List</b></h1>
-      </div>
         <% include ./partials/_navbar %>
       <div class="container collapse" id="loginbar">
         <% include ./partials/_login %>
@@ -61,7 +58,7 @@
     <div class="container add-item">
       <span class="input-group">
         <input id="itemInput" class="form-control todo-item" placeholder="Add a ToDo!" name="item">
-        <button id="itemSubmit" class="btn btn-dark">Add</button>
+        <button id="itemSubmit" class="btn btn-outline-secondary input-group-addon">Add</button>
       </span>
     </div>
     <% include ./partials/_prompt %>

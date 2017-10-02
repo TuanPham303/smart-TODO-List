@@ -1,47 +1,106 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
+$read: rgba(242, 123, 114, 0.73);
+$watch: rgba(51, 172, 150, 0.75);
+$buy: rgba(127, 76, 118, 0.72);
+$eat: rgba(61, 161, 201, 0.77);
+
+
+
 
 .strike {
   text-decoration: line-through;
 }
 
-.icon-wrap {
-  visibility: hidden;
-}
-
-.list-group-item:hover .icon-wrap {
-  visibility: visible;
-}
-
-
-.custom-control-input {
-  position: absolute;
-  z-index: -1; // Put the input behind the label so it doesn't overlay text
-  opacity: 0;
-
-  &:checked ~ .custom-control-indicator {
-    color: $teal;
-    background-color: $teal;
-    @include box-shadow($custom-control-indicator-checked-box-shadow);
+.card {
+  margin-bottom: 10px;
+  .card-header {
+    color: $white;
   }
 
+.custom-control-input {
   &:focus ~ .custom-control-indicator {
-    // the mixin is not used here to make sure there is feedback
     box-shadow: none;
   }
 }
 
-.custom-checkbox {
-  .custom-control-indicator {
-    @include border-radius($custom-checkbox-indicator-border-radius);
+  .icon-wrap {
+    visibility: hidden;
   }
-
-  .custom-control-input:checked ~ .custom-control-indicator {
-    background-image: $custom-checkbox-indicator-icon-checked;
+  .list-group-item:hover .icon-wrap {
+    visibility: visible;
   }
+}
 
-  .custom-control-input:indeterminate ~ .custom-control-indicator {
-    background-color: teal;
-    background-image: $custom-checkbox-indicator-icon-indeterminate;
-    @include box-shadow($custom-checkbox-indicator-indeterminate-box-shadow);
+.read-list {
+  border: 1px solid $read;
+  #read-header {
+    background-color: $read;
+  }
+  #read-items .custom-control-input {
+    &:checked ~ .custom-control-indicator {
+      background-color: $read;
+    }
+  }
+  .fa {
+    color: inherit;
+  }
+}
+
+.watch-list {
+  border: 1px solid $watch;
+  #watch-header {
+    background-color: $watch;
+  }
+  #watch-items .custom-control-input {
+    &:checked ~ .custom-control-indicator {
+      background-color: $watch;
+    }
+  }
+}
+
+.buy-list {
+  border: 1px solid $buy;
+  #buy-header {
+    background-color: $buy;
+  }
+  #buy-items .custom-control-input {
+    &:checked ~ .custom-control-indicator {
+      background-color: $buy;
+    }
+  }
+}
+
+.eat-list {
+  border: 1px solid $eat;
+  #eat-header {
+    background-color: $eat;
+  }
+  #eat-items .custom-control-input {
+    &:checked ~ .custom-control-indicator {
+      background-color: $eat;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .card-deck .card {
+    height: 1%;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .card-deck {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -$card-deck-margin;
+    margin-left: -$card-deck-margin;
+
+    .card {
+      display: flex;
+      flex: 1 0 0%;
+      flex-direction: column;
+      margin-right: $card-deck-margin;
+      margin-left: $card-deck-margin;
+    }
   }
 }
