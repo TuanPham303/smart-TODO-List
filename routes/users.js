@@ -13,7 +13,7 @@ module.exports = knex => {
   /////////////////// RENDER ITEMS //////////////////////
   router.get("/items", (req, res) => {
     knex
-      .select('items.id', 'items.user_id', 'items.category', 'items.content', 'items.status', 'users.email', 'users.password')
+      .select('items.id', 'items.user_id', 'items.category', 'items.content', 'items.status', 'users.email')
       .from('items')
       .innerJoin('users', 'items.user_id', 'users.id')
       .where('user_id', req.session.id)
@@ -79,17 +79,19 @@ module.exports = knex => {
     const pw = req.body.password;
 
     User.authenticate(email, pw)
-
     .then(user => {
       if (!user){
-        res.send(JSON.stringify('Email or password is incorrect'));
+        // res.send(JSON.stringify('email or password is incorrect'));
+        var string = encodeURIComponent('something that would break');
+        res.render('index', {err: 'something that would break'});
       } else {
-        console.log(user);
-          req.session.email = user.email;
-          req.session.id = user.id;
-          res.redirect("/");
-       }
-     });
+        console.log(user.id);
+        req.session.email = user.email;
+        req.session.id = user.id;
+        console.log('email cookie ',req.session.email);
+        res.redirect("/");
+      }
+    });
   });
 
   // UPDATE EMAIL & PASSWORD
@@ -114,14 +116,21 @@ module.exports = knex => {
     const pw = req.body.newPassword;
     let hashedPassword = bcrypt.hashSync(pw, 10);
 
-    knex("users")
-      .returning('id')
-      .insert({ email: email, password: hashedPassword })
-      .then((user) => {
-        req.session.email = req.body.newEmail;
-        req.session.id = user.toString();
-        res.redirect("/");
-      });
+    User.findEmail(email)
+    .then(user => {
+      if(!user){
+        knex("users")
+        .returning('id')
+        .insert({ email: email, password: hashedPassword })
+        .then((user) => {
+          req.session.email = req.body.newEmail;
+          req.session.id = user.toString();
+          res.redirect("/");
+        });
+      }
+    });
+
+
     // );
   });
 

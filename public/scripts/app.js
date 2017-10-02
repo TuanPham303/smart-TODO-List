@@ -192,16 +192,24 @@ $(function () {
   });
 
 //////////// HANDLE ERR LOGIN ///////////////
-$("#login").on('click', function(event){
+/*$("#login").on('click', function(event){
   $.post("/api/login", {
     email: $(event.target).parent().find($("#email")).val(),
     password: $(event.target).parent().find($("#password")).val(),
-   },
-   function(response){
+  },
+  function(response){
     $("<div style='color: red'>").text(JSON.parse(response)).appendTo($("header"));
   });
+  $.get("api/login", function(data){
+    getAllItems(data);
+  });
+});*/
+$.ajax({
+  method: 'POST',
+  url: "api/login",
+  success: function(data){
+    console.log(data);
+  }
 });
-
-
 
 });
