@@ -1,11 +1,9 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
+
 $read: rgba(242, 123, 114, 0.73);
 $watch: rgba(51, 172, 150, 0.75);
 $buy: rgba(127, 76, 118, 0.72);
 $eat: rgba(61, 161, 201, 0.77);
-
-
-
 
 .strike {
   text-decoration: line-through;
@@ -28,6 +26,11 @@ $eat: rgba(61, 161, 201, 0.77);
   }
   .list-group-item:hover .icon-wrap {
     visibility: visible;
+    color: $gray-700;
+    .fa {
+      float: right;
+      margin: 5px 5px 0;
+    }
   }
 }
 
@@ -40,9 +43,6 @@ $eat: rgba(61, 161, 201, 0.77);
     &:checked ~ .custom-control-indicator {
       background-color: $read;
     }
-  }
-  .fa {
-    color: inherit;
   }
 }
 
