@@ -13,6 +13,14 @@ body {
     padding-bottom: 15px;
   }
 
+  .add-item {
+    height: 100px;
+
+    .input-group {
+      height: 60px;
+    }
+  }
+
   .btn-outline-secondary {
     color: $white;
     border: none;
@@ -35,7 +43,12 @@ body {
   }
 
   .form-control:focus {
-    // border-color: $gray-900;
-    border: 1.4px dashed rgba(51, 73, 96, 0.83);
+    border: 1.3px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .add-btn {
+    background-color: rgba(51, 73, 96, 0.83);
+    border-color: rgba(51, 73, 96, 0.83);
+    color: $white;
   }
 }

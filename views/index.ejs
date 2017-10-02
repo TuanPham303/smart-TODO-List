@@ -47,10 +47,12 @@
 
     <!-- add item input -->
     <div class="container add-item">
-      <span class="input-group">
+      <div class="d-flex">
+      <span class="input-group p-2">
         <input id="itemInput" class="form-control todo-item" placeholder="Add a ToDo!" name="item">
-        <button id="itemSubmit" class="btn btn-outline-secondary input-group-addon">Add</button>
+        <button id="itemSubmit" class="btn btn-secondary input-group-addon add-btn">Add</button>
       </span>
+    </div>
     </div>
 
     <% include ./partials/_prompt %>
@@ -95,6 +97,7 @@
           </div>
         </div>
 
+        <!-- move item between lists -->
         <div id="moveToggle">
           <p>Move to:</p>
           <div class="itemWrap">

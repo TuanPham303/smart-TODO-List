@@ -1,11 +1,15 @@
 <% if (!userId) { %>
 
-  <div class="d-flex justify-content-center">
-    <span class="input-group-addon">Email</span>
-    <input id="email" type="email" name="email" placeholder="youremail@email.com">
-    <span class="input-group-addon">Password</span>
-    <input id="password" type="password" name="password" placeholder="password">
-    <button class="btn btn-dark" id="login">Login</button>
+  <div class="d-flex justify-content-center form-inline">
+    <div class="input-group p-2">
+      <span class="input-group-addon">Email</span>
+      <input class="form-control" id="email" type="email" name="email" placeholder="youremail@email.com">
+    </div>
+    <div class="input-group p-2">
+      <span class="input-group-addon">Password</span>
+      <input class="form-control" id="password" type="password" name="password" placeholder="password">
+    </div>
+    <button class="btn btn-secondary p-2" id="login">Login</button>
   </div>
 
 <% } %>
