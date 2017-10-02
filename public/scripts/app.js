@@ -130,12 +130,12 @@ $(function () {
               .remove();
           },
           error: function (error) {
-            console.log("error there in the internal ajax " + error);
+            console.log("Error when deleting: " + error);
           }
         }); //internal ajax call ends here.
       }, //outside ajax call success bracket
       error: function (error) {
-        console.log("it didnt work. Some issue", error);
+        console.log("Error when deleting: ", error);
       }
     });
   }
@@ -198,7 +198,6 @@ $("#login").on('click', function(event){
     password: $(event.target).parent().find($("#password")).val(),
    },
    function(response){
-    console.log('response: ', response);
     if (JSON.parse(response) === 'invalid') {
       $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
     } else {
@@ -214,7 +213,6 @@ $("#register").on('click', function(event){
     password: $(event.target).parent().find($("#newPassword")).val(),
    },
    function(response){
-    console.log('response: ', response);
     if (JSON.parse(response) === 'invalid') {
       $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
     } else {
