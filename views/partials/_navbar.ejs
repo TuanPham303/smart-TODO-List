@@ -1,0 +1,30 @@
+<!-- if user IS logged in, show HI USER, UPDATE PROFILE, LOGOUT -->
+<!-- else user is NOT logged in, show LOGIN and REGISTER -->
+
+<nav class="navbar nav-light justify-content-start ">
+
+  <div class="d-flex align-self-center">
+    <h1 class="p-2">&#10003 Smart TODO List</h1>
+  </div>
+
+  <% if (userId) { %>
+    <form class="d-flex ml-auto p-2">
+      <span class="login-hello align-self-center p-2"><b>Hello <%= userId %>!</b></span>
+      <div class="btn btn-outline-secondary align-self-center profile-toggle" style="cursor: pointer">Change Password</div>
+    </form>
+    <form class="" action="api/logout" method='POST'>
+      <button class="btn btn-outline-secondary p-2" value="Logout" type='submit'>Logout</button>
+    </form>
+
+  <% } else { %>
+
+    <form class="d-flex ml-auto p-2">
+      <div class="register-toggle btn btn-outline-secondary p-2" style='cursor: pointer'>Register</div>
+      <div class="login-toggle btn btn-outline-secondary p-2" style='cursor: pointer'>Login</div>
+    </form>
+
+  <% } %>
+
+</nav>
+
+

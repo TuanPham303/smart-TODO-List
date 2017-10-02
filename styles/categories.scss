@@ -1,0 +1,159 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+$read: rgba(242, 123, 114, 0.73);
+$watch: rgba(51, 172, 150, 0.75);
+$buy: rgba(127, 76, 118, 0.72);
+$eat: rgba(61, 161, 201, 0.77);
+
+.strike {
+  text-decoration: line-through;
+}
+
+.card {
+  margin-bottom: 10px;
+  .card-header {
+    color: $white;
+  }
+
+.custom-control-input {
+  &:focus ~ .custom-control-indicator {
+    box-shadow: none;
+  }
+}
+
+  .icon-wrap {
+    visibility: hidden;
+  }
+  .list-group-item:hover .icon-wrap {
+    color: $gray-700;
+    visibility: visible;
+    .fa {
+      float: right;
+      margin: 5px 5px 0;
+    }
+  }
+}
+
+.read-list {
+  border: 1px solid $read;
+  #read-header {
+    background-color: $read;
+  }
+  #read-items .custom-control-input {
+    &:checked ~ .custom-control-indicator {
+      background-color: $read;
+    }
+  }
+}
+
+.watch-list {
+  border: 1px solid $watch;
+  #watch-header {
+    background-color: $watch;
+  }
+  #watch-items .custom-control-input {
+    &:checked ~ .custom-control-indicator {
+      background-color: $watch;
+    }
+  }
+}
+
+.buy-list {
+  border: 1px solid $buy;
+  #buy-header {
+    background-color: $buy;
+  }
+  #buy-items .custom-control-input {
+    &:checked ~ .custom-control-indicator {
+      background-color: $buy;
+    }
+  }
+}
+
+.eat-list {
+  border: 1px solid $eat;
+  #eat-header {
+    background-color: $eat;
+  }
+  #eat-items .custom-control-input {
+    &:checked ~ .custom-control-indicator {
+      background-color: $eat;
+    }
+  }
+}
+
+.selectCategory {
+  background-color: rgb(134, 142, 150);
+}
+
+.move-read:hover {
+  background-color: $read;
+}
+
+.move-watch:hover {
+  background-color: $watch;
+}
+
+.move-buy:hover {
+  background-color: $buy;
+}
+
+.move-eat:hover {
+  background-color: $eat;
+}
+
+#moveToggle {
+  background-color: rgba(51, 73, 96, 0.83);
+  border-radius: 5px;
+  color: $white;
+  display: none;
+  height: 100px;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  z-index: 999;
+}
+
+.itemWrap {
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 100%;
+  .moveItem {
+    border-radius: 5px;
+    border: none;
+    color: $white;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 5px;
+    padding: 0 10px;
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-deck .card {
+    height: 1%;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .card-deck {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -$card-deck-margin;
+    margin-left: -$card-deck-margin;
+
+    .card {
+      display: flex;
+      flex: 1 0 0%;
+      flex-direction: column;
+      margin-right: $card-deck-margin;
+      margin-left: $card-deck-margin;
+    }
+  }
+}

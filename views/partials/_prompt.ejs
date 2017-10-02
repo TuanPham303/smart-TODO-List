@@ -1,0 +1,20 @@
+<div class="d-flex justify-content-center">
+  <span id="loadingSpinner" role="alert" style="display: none">
+    <img src="loadingSpinner.gif" style="height:40px;">
+  </span>
+</div>
+
+<div class="prompt d-flex justify-content-center">
+  <span id="multiMatch" role="alert" style="display: none">
+    Which did you mean:
+    <button id="readButton" style="display: none" class="selectCategory btn btn-outline-secondary move-read" value="read">To Read</button>
+    <button id="watchButton" style="display: none" class="selectCategory btn btn-outline-secondary move-watch" value="watch">To Watch</button>
+    <button id="buyButton" style="display: none" class="selectCategory btn btn-outline-secondary move-buy" value="buy">To Buy</button>
+    <button id="eatButton" style="display: none" class="selectCategory btn btn-outline-secondary move-eat" value="eat">To Eat</button>
+
+    <span style="visibility: hidden">-</span>
+    <button type="button" class="close closePrompt">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </span>
+</div>

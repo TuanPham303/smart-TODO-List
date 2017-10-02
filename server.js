@@ -40,7 +40,14 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+<<<<<<< HEAD
   res.render("index");
+=======
+  let templateVars = {
+    userId: req.session.email,
+  };
+  res.render("index", templateVars);
+>>>>>>> development
 });
 
 app.listen(PORT, () => {

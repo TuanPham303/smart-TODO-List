@@ -3,6 +3,7 @@
   <head>
     <title>Home Page</title>
 
+<<<<<<< HEAD
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
@@ -13,5 +14,112 @@
 
   <body>
     <h1>Hello World!</h1>
+=======
+    <!-- required for bootstrap responsive view -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- google font -->
+      <link href="https://fonts.googleapis.com/css?family=Quicksand|Reem+Kufi" rel="stylesheet">
+
+    <!-- layout style sheet -->
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <!-- stylesheet for item list container -->
+    <link rel="stylesheet" href="/styles/categories.css" type="text/css" />
+
+    <!-- font awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/navbar-toggle.js"></script>
+    <script type="text/javascript" src="/scripts/checkbox.js"></script>
+    <script type="text/javascript" src="/scripts/categories-toggle.js"></script>
+  </head>
+
+  <body>
+
+    <!-- page header -->
+    <header class="container">
+      <% include ./partials/_navbar %>
+      <div class="container collapse" id="loginbar">
+        <% include ./partials/_login %>
+      </div>
+      <div class="container collapse" id="registerbar">
+        <% include ./partials/_register %>
+      </div>
+      <div class="container collapse" id="profilebar">
+        <% include ./partials/_profile %>
+      </div>
+    </header>
+
+    <!-- if user is logged in -->
+    <% if (userId) { %>
+
+    <!-- add item input -->
+    <div class="container add-item">
+      <div class="d-flex">
+      <span class="input-group p-2">
+        <input id="itemInput" class="form-control todo-item" placeholder="Add a ToDo!" name="item">
+        <button id="itemSubmit" class="btn btn-secondary input-group-addon add-btn">Add</button>
+      </span>
+    </div>
+    </div>
+
+    <% include ./partials/_prompt %>
+
+    <!-- main container with categories and lists -->
+    <div class="container">
+      <div class="card-deck categories">
+
+        <!-- to read list column -->
+        <div class="card read-list">
+          <h5 class="card-header" id="read-header">To Read</h5>
+          <div class="card-block" id="read-block">
+            <ul class="list-group list-group-flush" id="read-items">
+            </ul>
+          </div>
+        </div>
+
+        <!-- to watch list column -->
+        <div class="card watch-list">
+          <h5 class="card-header" id="watch-header">To Watch</h5>
+          <div class="card-block" id="watch-block">
+            <ul class="list-group list-group-flush" id="watch-items">
+            </ul>
+          </div>
+        </div>
+
+        <!-- to buy list column -->
+        <div class="card buy-list">
+          <h5 class="card-header" id="buy-header">To Buy</h5>
+          <div class="card-block" id="buy-block">
+            <ul class="list-group list-group-flush" id="buy-items">
+            </ul>
+          </div>
+        </div>
+
+        <!-- to eat list column -->
+        <div class="card eat-list">
+          <h5 class="card-header" id="eat-header">To Eat</h5>
+          <div class="card-block" id="eat-block">
+            <ul class="list-group list-group-flush" id="eat-items">
+            </ul>
+          </div>
+        </div>
+
+        <!-- move item between lists -->
+        <div id="moveToggle">
+          <p>Move to:</p>
+          <div class="itemWrap">
+          <button class="moveItem btn btn-secondary move-read" value="read">To Read</button>
+          <button class="moveItem btn btn-secondary move-watch" value="watch">To Watch</button>
+          <button class="moveItem btn btn-secondary move-buy" value="buy">To Buy</button>
+          <button class="moveItem btn btn-secondary move-eat" value="eat">To Eat</button>
+        </div>
+      </div>
+      <% } %>
+>>>>>>> development
   </body>
 </html>

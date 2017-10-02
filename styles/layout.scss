@@ -1,7 +1,67 @@
+<<<<<<< HEAD
 body {
   background-color: #EEE;
 
   h1 {
     color: #244751;
+=======
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+$main: rgba(51, 73, 96, 0.83);
+
+* {
+  font-family: 'Quicksand', sans-serif;
+}
+
+body {
+
+  height: 100vh;
+
+  header {
+    h1 {
+      font-family: 'Reem Kufi', sans-serif;
+      margin-bottom: 0px;
+    }
+  }
+
+  .container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .navbar {
+    background: $main;
+    border-radius: 4px;
+    color: $white;
+    margin-top: 15px;
+
+    .login-hello {
+      margin-right: 10px;
+    }
+  }
+
+  .add-item {
+    height: 100px;
+
+    .input-group {
+      height: 60px;
+    }
+  }
+
+  .btn-outline-secondary {
+    color: $white;
+    border: none;
+    margin-left: 10px;
+  }
+
+  .form-control:focus {
+    border: 1.3px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .add-btn {
+    background-color: $main;
+    border-color: $main;
+    color: $white;
+>>>>>>> development
   }
 }
