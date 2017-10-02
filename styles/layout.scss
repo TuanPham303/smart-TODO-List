@@ -1,5 +1,7 @@
 @import '../node_modules/bootstrap/scss/bootstrap';
 
+$main: rgba(51, 73, 96, 0.83);
+
 * {
   font-family: 'Quicksand', sans-serif;
 }
@@ -28,13 +30,13 @@ body {
   }
 
   .navbar {
-    background: rgba(51, 73, 96, 0.83);
-    color: $white;
+    background: $main;
     border-radius: 4px;
+    color: $white;
     header {
       h1 {
-        margin-bottom: 0px;
         font-family: 'Reem Kufi', sans-serif;
+        margin-bottom: 0px;
       }
     }
     .login-hello {
@@ -47,8 +49,8 @@ body {
   }
 
   .add-btn {
-    background-color: rgba(51, 73, 96, 0.83);
-    border-color: rgba(51, 73, 96, 0.83);
+    background-color: $main;
+    border-color: $main;
     color: $white;
   }
 }

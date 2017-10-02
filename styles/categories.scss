@@ -25,8 +25,8 @@ $eat: rgba(61, 161, 201, 0.77);
     visibility: hidden;
   }
   .list-group-item:hover .icon-wrap {
-    visibility: visible;
     color: $gray-700;
+    visibility: visible;
     .fa {
       float: right;
       margin: 5px 5px 0;
@@ -103,35 +103,35 @@ $eat: rgba(61, 161, 201, 0.77);
 }
 
 #moveToggle {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 100px;
-  width: 450px;
   background-color: rgba(128, 128, 128, 0.76);
-  z-index: 999;
-  text-align: center;
-  color: $white;
   border-radius: 5px;
+  color: $white;
   display: none;
+  height: 100px;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  z-index: 999;
 }
 
 .itemWrap {
-  position: absolute;
   left: 50%;
+  position: absolute;
   transform: translateX(-50%);
   width: 100%;
   .moveItem {
-    color: $white;
     border-radius: 5px;
     border: none;
+    color: $white;
+    display: inline-block;
     height: 50px;
     line-height: 50px;
-    text-align: center;
-    padding: 0 10px;
     margin: 0 5px;
-    display: inline-block;
+    padding: 0 10px;
+    text-align: center;
   }
 }
 
