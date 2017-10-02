@@ -12,15 +12,16 @@ module.exports = knex => {
 
   /////////////////// RENDER ITEMS //////////////////////
   router.get("/items", (req, res) => {
-    // console.log(req.session.id);
-    knex
-      .select('items.id', 'items.user_id', 'items.category', 'items.content', 'items.status', 'users.email')
-      .from('items')
-      .innerJoin('users', 'items.user_id', 'users.id')
-      .where('user_id', req.session.id)
-      .then(results => {
-        res.json(results);
-      });
+    if (req.session.id !== undefined && req.session.id !== null) {
+      knex
+        .select('items.id', 'items.user_id', 'items.category', 'items.content', 'items.status', 'users.email')
+        .from('items')
+        .innerJoin('users', 'items.user_id', 'users.id')
+        .where('user_id', req.session.id)
+        .then(results => {
+          res.json(results);
+        });
+    }
   });
 
   /////////////////////// ADD ITEMS ////////////////////////
@@ -128,9 +129,6 @@ module.exports = knex => {
         res.send(JSON.stringify('invalid'));
       }
     });
-
-
-    // );
   });
 
   ////////////LOG OUT///////////////
@@ -147,10 +145,8 @@ module.exports = knex => {
       .where("id", itemToDelete)
       .del()
       .then(function (count) {
-        console.log('item deleted');
         res.send({ result: true });
       });
-    // res.redirect('/');
   });
 
   ///////////////////////// MOVE ITEMS ////////////////////////
