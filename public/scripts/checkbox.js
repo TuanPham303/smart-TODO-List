@@ -1,9 +1,9 @@
 $(function () {
   $(".categories").on("click", ".custom-control-input", function (t) {
-    const item = $(t.target).siblings(".custom-control-description");
-    const itemId = $(item).attr('data-item-id');
-    let checked = !this.checked;
-    let status = checked.toString();
+    var item = $(t.target).siblings(".custom-control-description");
+    var itemId = $(item).attr('data-item-id');
+    var checked = !this.checked;
+    var status = checked.toString();
 
     if (!checked) {
       $(item).addClass("strike");

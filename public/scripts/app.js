@@ -5,23 +5,23 @@ $(function () {
     $("#watch-items").empty();
     $("#buy-items").empty();
     $("#eat-items").empty();
-    for (const item of items) {
-      const liWrap = $("<li>").addClass("list-group-item");
-      const divWrap = $("<div>").addClass("d-flex justify-content-start flex-row");
-      const labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
-      const inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");
-      const spanWrap = $("<span>").addClass("custom-control-indicator");
+    for (var item of items) {
+      var liWrap = $("<li>").addClass("list-group-item");
+      var divWrap = $("<div>").addClass("d-flex justify-content-start flex-row");
+      var labelWrap = $("<label>").addClass("custom-control custom-checkbox readItem");
+      var inputWrap = $("<input type='checkbox'>").addClass("custom-control-input");
+      var spanWrap = $("<span>").addClass("custom-control-indicator");
 
-      const contentSpan = $('<span>')
-      .addClass('contentSpan custom-control-description')
-      .attr({
-        'data-item-id': item.id,
-      })
-      .text(item.content);
+      var contentSpan = $('<span>')
+        .addClass('contentSpan custom-control-description')
+        .attr({
+          'data-item-id': item.id,
+        })
+        .text(item.content);
 
-      const iconWrap = $("<div>").addClass("d-flex ml-auto icon-wrap");
-      const moveButton = $('<i>').addClass('fa fa-arrows-alt').attr("data-toggle", "tooltip").attr("data-placement", "top").attr("title", "Move to another list");
-      const deleteButton = $('<i>').addClass('fa fa-trash-o').attr("data-toggle", "tooltip").attr("data-placement", "top").attr("title", "Delete");
+      var iconWrap = $("<div>").addClass("d-flex ml-auto icon-wrap");
+      var moveButton = $('<i>').addClass('fa fa-arrows-alt').attr("data-toggle", "tooltip").attr("data-placement", "top").attr("title", "Move to another list");
+      var deleteButton = $('<i>').addClass('fa fa-trash-o').attr("data-toggle", "tooltip").attr("data-placement", "top").attr("title", "Delete");
 
       if (item.status === false) {
         inputWrap.prop("checked", true);
@@ -55,7 +55,7 @@ $(function () {
       $.post("/api/items/add", { input: $("#itemInput").val() }, function (
         response
       ) {
-        const categories = JSON.parse(response);
+        var categories = JSON.parse(response);
         $("#loadingSpinner").css("display", "none");
         if (Array.isArray(categories)) {
           $("#multiMatch").css("display", "inline");
@@ -63,7 +63,7 @@ $(function () {
             $(".selectCategory").css("display", "inline");
           } else {
             categories.forEach(function (category) {
-              $(`#${category}Button`).css("display", "inline");
+              $('#' + category + 'Button').css("display", "inline");
             });
           }
         } else {
@@ -75,7 +75,7 @@ $(function () {
   }
 
   //submit on 'enter'
-  $("#itemInput").keypress(function(event) {
+  $("#itemInput").keypress(function (event) {
     if (event.which == 13) {
       event.preventDefault();
       submit();
@@ -145,8 +145,8 @@ $(function () {
   });
 
   //////////////////////MOVE ITEMS//////////////////////////////
-  let itemToMove;
-  let itemWrapToDelete;
+  var itemToMove;
+  var itemWrapToDelete;
   $(".categories").on("click", ".fa-arrows-alt", function (event) {
     event.stopPropagation();
     itemToMove = $(event.target)
@@ -162,7 +162,7 @@ $(function () {
   $(".moveItem").on("click", function (event) {
     $("#moveToggle").toggle();
     itemWrapToDelete.remove();
-    const moveToCategory = event.target.value;
+    var moveToCategory = event.target.value;
     $.ajax({
       method: "PUT",
       url: "api/items/move",
@@ -182,43 +182,43 @@ $(function () {
     });
   });
   // toggle popup if click where else
-  $("body").on('click', function(){
-    if($("#moveToggle").css("display") === "block"){
+  $("body").on('click', function () {
+    if ($("#moveToggle").css("display") === "block") {
       $("#moveToggle").toggle();
     }
   });
-  $("#moveToggle").on('click', function(event){
+  $("#moveToggle").on('click', function (event) {
     event.stopPropagation();
   });
 
-//////////// HANDLE ERR LOGIN ///////////////
-$("#login").on('click', function(event){
-  $.post("/api/login", {
-    email: $(event.target).parent().find($("#email")).val(),
-    password: $(event.target).parent().find($("#password")).val(),
-   },
-   function(response){
-    if (JSON.parse(response) === 'invalid') {
-      $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
-    } else {
-      window.location.replace('/');
-    }
+  //////////// HANDLE ERR LOGIN ///////////////
+  $("#login").on('click', function (event) {
+    $.post("/api/login", {
+      email: $(event.target).parent().find($("#email")).val(),
+      password: $(event.target).parent().find($("#password")).val(),
+    },
+      function (response) {
+        if (JSON.parse(response) === 'invalid') {
+          $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
+        } else {
+          window.location.replace('/');
+        }
+      });
   });
-});
 
-////////////// HANDLE REGISTER ERROR //////////////
-$("#register").on('click', function(event){
-  $.post("/api/register", {
-    email: $(event.target).parent().find($("#newEmail")).val(),
-    password: $(event.target).parent().find($("#newPassword")).val(),
-   },
-   function(response){
-    if (JSON.parse(response) === 'invalid') {
-      $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
-    } else {
-      window.location.replace('/');
-    }
+  ////////////// HANDLE REGISTER ERROR //////////////
+  $("#register").on('click', function (event) {
+    $.post("/api/register", {
+      email: $(event.target).parent().find($("#newEmail")).val(),
+      password: $(event.target).parent().find($("#newPassword")).val(),
+    },
+      function (response) {
+        if (JSON.parse(response) === 'invalid') {
+          $("<div style='color: red'>").text('Email or password is incorrect').appendTo($("header"));
+        } else {
+          window.location.replace('/');
+        }
+      });
   });
-});
 
 });
