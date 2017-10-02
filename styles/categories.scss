@@ -82,6 +82,59 @@ $eat: rgba(61, 161, 201, 0.77);
   }
 }
 
+.selectCategory {
+  background-color: rgb(134, 142, 150);
+}
+
+.move-read:hover {
+  background-color: $read;
+}
+
+.move-watch:hover {
+  background-color: $watch;
+}
+
+.move-buy:hover {
+  background-color: $buy;
+}
+
+.move-eat:hover {
+  background-color: $eat;
+}
+
+#moveToggle {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100px;
+  width: 450px;
+  background-color: rgba(128, 128, 128, 0.76);
+  z-index: 999;
+  text-align: center;
+  color: $white;
+  border-radius: 5px;
+  display: none;
+}
+
+.itemWrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  .moveItem {
+    color: $white;
+    border-radius: 5px;
+    border: none;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    padding: 0 10px;
+    margin: 0 5px;
+    display: inline-block;
+  }
+}
+
 @media (min-width: 768px) {
   .card-deck .card {
     height: 1%;

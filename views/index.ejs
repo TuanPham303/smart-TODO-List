@@ -28,19 +28,9 @@
 
   <body>
 
-  <div id="moveToggle">
-    <p>Move to:</p>
-    <div class="itemWrap">
-      <button class="moveItem" value="read">To Read</button>
-      <button class="moveItem" value="watch">To Watch</button>
-      <button class="moveItem" value="buy">To Buy</button>
-      <button class="moveItem" value="eat">To Eat</button>
-    </div>
-  </div>
-
     <!-- page header -->
     <header class="container">
-        <% include ./partials/_navbar %>
+      <% include ./partials/_navbar %>
       <div class="container collapse" id="loginbar">
         <% include ./partials/_login %>
       </div>
@@ -52,6 +42,7 @@
       </div>
     </header>
 
+    <!-- if user is logged in -->
     <% if (userId) { %>
 
     <!-- add item input -->
@@ -61,6 +52,7 @@
         <button id="itemSubmit" class="btn btn-outline-secondary input-group-addon">Add</button>
       </span>
     </div>
+
     <% include ./partials/_prompt %>
 
     <!-- main container with categories and lists -->
@@ -85,7 +77,6 @@
           </div>
         </div>
 
-
         <!-- to buy list column -->
         <div class="card buy-list">
           <h5 class="card-header" id="buy-header">To Buy</h5>
@@ -103,6 +94,16 @@
             </ul>
           </div>
         </div>
+
+        <div id="moveToggle">
+          <p>Move to:</p>
+          <div class="itemWrap">
+          <button class="moveItem btn btn-secondary move-read" value="read">To Read</button>
+          <button class="moveItem btn btn-secondary move-watch" value="watch">To Watch</button>
+          <button class="moveItem btn btn-secondary move-buy" value="buy">To Buy</button>
+          <button class="moveItem btn btn-secondary move-eat" value="eat">To Eat</button>
+        </div>
+      </div>
       <% } %>
   </body>
 </html>
